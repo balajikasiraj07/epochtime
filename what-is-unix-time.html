@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What is Unix Time? Unix Epoch Explained | EpochTime.live</title>
+  <meta name="description" content="Learn what Unix time (epoch time) is, why it starts on January 1 1970, how it works, and how developers use Unix timestamps in programming and databases." />
+  <meta name="keywords" content="what is unix time, unix epoch explained, unix timestamp meaning, epoch time 1970, unix time programming" />
+  <link rel="canonical" href="https://epochtime.live/what-is-unix-time.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://epochtime.live/what-is-unix-time.html" />
+  <meta property="og:title" content="What is Unix Time? Unix Epoch Explained" />
+  <meta property="og:description" content="Learn what Unix time (epoch time) is, why it starts on January 1 1970, and how developers use Unix timestamps." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What is Unix Time? Unix Epoch Explained",
+    "description": "A complete guide to Unix epoch time — what it is, why 1970, how it works, and practical uses in programming.",
+    "url": "https://epochtime.live/what-is-unix-time.html",
+    "publisher": {
+      "@type": "Organization",
+      "name": "EpochTime.live",
+      "url": "https://epochtime.live/"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">⏱ EpochTime.live</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/what-is-unix-time.html">What is Unix Time?</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="ad-slot ad-top" aria-label="Advertisement">
+      <div class="ad-placeholder">Ad</div>
+    </div>
+
+    <article class="info-page">
+      <h1>What is Unix Time?</h1>
+      <p>
+        <strong>Unix time</strong> (also known as epoch time, POSIX time, or Unix timestamp) is a
+        way to represent a specific moment in time as a single number — the count of
+        <strong>seconds elapsed since 00:00:00 UTC on Thursday, 1 January 1970</strong>.
+        That starting point is called the <em>Unix epoch</em>.
+      </p>
+
+      <h2>Why January 1, 1970?</h2>
+      <p>
+        When the Unix operating system was developed at Bell Labs in the late 1960s and early 1970s,
+        its designers needed a simple, consistent reference point for measuring time. January 1, 1970
+        was chosen because it was recent, round, and convenient for the systems being built at the
+        time. It has since become the universal standard for time representation in computing.
+      </p>
+
+      <h2>How Unix Time Works</h2>
+      <p>
+        Every second that passes, the Unix timestamp increments by 1. For example:
+      </p>
+      <ul>
+        <li><code>0</code> → 1970-01-01 00:00:00 UTC (the epoch)</li>
+        <li><code>86400</code> → 1970-01-02 00:00:00 UTC (one day later)</li>
+        <li><code>1700000000</code> → 2023-11-14 22:13:20 UTC</li>
+      </ul>
+      <p>
+        Negative timestamps represent moments <em>before</em> the epoch (before 1970).
+        Most modern systems store timestamps as 64-bit integers, which can represent dates
+        hundreds of billions of years into the future.
+      </p>
+
+      <h2>Seconds vs. Milliseconds</h2>
+      <p>
+        The Unix standard counts <strong>seconds</strong>. However, many programming environments
+        (JavaScript's <code>Date.now()</code>, Java, etc.) return timestamps in
+        <strong>milliseconds</strong> — 1000× larger. A 10-digit number is seconds; a 13-digit
+        number is almost always milliseconds.
+      </p>
+
+      <h2>Unix Time Does Not Count Leap Seconds</h2>
+      <p>
+        Leap seconds are periodically added to UTC to keep it aligned with Earth's rotation.
+        Unix time intentionally ignores them — every day is treated as exactly 86,400 seconds.
+        This makes arithmetic simple but means Unix time can diverge from civil time by a few seconds.
+      </p>
+
+      <h2>The Year 2038 Problem</h2>
+      <p>
+        Older 32-bit systems store Unix timestamps as a signed 32-bit integer, which can only
+        hold values up to <code>2,147,483,647</code> — corresponding to
+        <strong>2038-01-19 03:14:07 UTC</strong>. After that second, these systems will overflow
+        and roll back to a negative number (1901). Modern 64-bit systems are not affected and
+        can safely represent dates until the year 292 billion.
+      </p>
+
+      <h2>Common Uses in Programming</h2>
+      <ul>
+        <li>Storing <strong>created_at / updated_at</strong> fields in databases</li>
+        <li>Signing and expiring <strong>JWT tokens</strong> (<code>iat</code>, <code>exp</code> claims)</li>
+        <li>HTTP headers like <code>Last-Modified</code> and <code>Expires</code></li>
+        <li>Log file timestamps for easy sorting and comparison</li>
+        <li>Calculating durations — just subtract two epoch values</li>
+        <li>Distributed systems and event ordering</li>
+      </ul>
+
+      <h2>Getting the Current Epoch Time</h2>
+      <p>Here's how to get the current Unix timestamp in common languages:</p>
+      <ul>
+        <li><strong>JavaScript:</strong> <code>Math.floor(Date.now() / 1000)</code></li>
+        <li><strong>Python:</strong> <code>import time; int(time.time())</code></li>
+        <li><strong>Bash / Shell:</strong> <code>date +%s</code></li>
+        <li><strong>SQL (PostgreSQL):</strong> <code>EXTRACT(EPOCH FROM NOW())</code></li>
+        <li><strong>Java:</strong> <code>System.currentTimeMillis() / 1000L</code></li>
+        <li><strong>Go:</strong> <code>time.Now().Unix()</code></li>
+        <li><strong>PHP:</strong> <code>time()</code></li>
+      </ul>
+
+      <p>
+        <a href="/">← Back to the live epoch converter</a>
+      </p>
+    </article>
+
+    <div class="ad-slot ad-bottom" aria-label="Advertisement">
+      <div class="ad-placeholder">Ad</div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="footerYear"></span> EpochTime.live — Fast, free Unix timestamp tool</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/what-is-unix-time.html">What is Unix Time?</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+</body>
+</html>

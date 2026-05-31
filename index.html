@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Epoch Time Now — Unix Timestamp Converter | EpochTime.live</title>
+  <meta name="description" content="Current Unix epoch timestamp, live. Convert epoch to date or date to epoch instantly. Code snippets for JavaScript, Python, Go, Bash, SQL and more." />
+  <meta name="keywords" content="epoch time, unix timestamp, epoch converter, unix time now, epoch to date, timestamp converter, current epoch time, javascript Date.now, python time.time, date +%s bash" />
+  <link rel="canonical" href="https://epochtime.live/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://epochtime.live/" />
+  <meta property="og:title" content="Epoch Time Now — Unix Timestamp Converter" />
+  <meta property="og:description" content="Live Unix epoch timestamp with instant conversion and code snippets for every language." />
+
+  <!-- WebApplication schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "EpochTime.live",
+    "url": "https://epochtime.live/",
+    "description": "Real-time Unix epoch timestamp display and converter with code examples.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <!-- FAQ schema — targets rich results for common developer queries -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Unix epoch time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Unix epoch time is the number of seconds elapsed since 00:00:00 UTC on 1 January 1970. It is timezone-independent and universally used in programming for timestamps."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get the current Unix timestamp in JavaScript?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use Math.floor(Date.now() / 1000) for seconds, or Date.now() for milliseconds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get the current epoch time in Python?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use import time; int(time.time()) in Python."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Unix timestamp for 2038?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 32-bit signed integer overflow (Year 2038 problem) occurs at epoch 2147483647, which is 2038-01-19 03:14:07 UTC."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav>
+        <a href="/">Converter</a>
+        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+
+    <!-- Live epoch + clock -->
+    <div class="top-section">
+      <div class="epoch-main">
+        <div class="epoch-eyebrow">Current Unix Epoch Time</div>
+        <div class="epoch-number-row">
+          <div class="epoch-number" id="epochSeconds" aria-live="polite">—</div>
+          <button class="copy-btn copy-inline" onclick="copyText('epochSeconds')">Copy</button>
+          <button class="copy-btn" id="pauseBtn" onclick="togglePause()">Pause</button>
+        </div>
+        <div class="epoch-variants">
+          <span><b id="epochMs">—</b> ms</span>
+        </div>
+      </div>
+      <div class="live-clock">
+        <div class="clock-row">
+          <span class="clock-label">GMT / UTC</span>
+          <span class="clock-value" id="gmtTime">—</span>
+        </div>
+        <div class="clock-row">
+          <span class="clock-label">ISO 8601</span>
+          <span class="clock-value" id="isoTime">—</span>
+        </div>
+        <div class="clock-row">
+          <span class="clock-label">Your Local Time</span>
+          <span class="clock-value" id="localTime">—</span>
+          <span class="clock-tz" id="tzLabel">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Epoch → Date -->
+    <div class="tool-card">
+      <div class="tool-card-header">Epoch → Human Date</div>
+      <div class="tool-card-body">
+        <div class="converter-row">
+          <label for="epochInput">Timestamp (s or ms):</label>
+          <input type="number" id="epochInput" placeholder="e.g. 1700000000" />
+          <button onclick="convertEpochToDate()">Convert</button>
+          <button class="btn-secondary" onclick="useNow()">Use now</button>
+        </div>
+        <div class="error-msg" id="epochError" hidden></div>
+        <table class="result-table" id="epochResult" hidden>
+          <tbody>
+            <tr><td>Input interpreted as</td><td id="e2d-unit" class="unit-note"></td><td class="copy-cell"></td></tr>
+            <tr><td>ISO 8601 (UTC)</td><td id="e2d-iso"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('e2d-iso')">Copy</button></td></tr>
+            <tr><td>GMT / UTC</td><td id="e2d-gmt"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('e2d-gmt')">Copy</button></td></tr>
+            <tr><td>Your local time</td><td id="e2d-local"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('e2d-local')">Copy</button></td></tr>
+            <tr><td><select id="tzSelect" class="tz-select" aria-label="Show time in timezone"></select></td><td id="e2d-tzpick"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('e2d-tzpick')">Copy</button></td></tr>
+            <tr><td>Relative</td><td id="e2d-relative"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('e2d-relative')">Copy</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Date → Epoch -->
+    <div class="tool-card">
+      <div class="tool-card-header">Human Date → Epoch</div>
+      <div class="tool-card-body">
+        <div class="converter-row">
+          <label for="dateInput">Date &amp; time:</label>
+          <input type="datetime-local" id="dateInput" step="1" />
+          <button onclick="convertDateToEpoch()">Convert</button>
+          <button class="btn-secondary" onclick="dateNow()">Now</button>
+        </div>
+        <div class="converter-row dt-mode">
+          <span class="dt-mode-label">Interpret input as:</span>
+          <label><input type="radio" name="dtmode" value="local" checked /> Local time</label>
+          <label><input type="radio" name="dtmode" value="utc" /> UTC</label>
+        </div>
+        <div class="error-msg" id="dateError" hidden></div>
+        <table class="result-table" id="dateResult" hidden>
+          <tbody>
+            <tr><td>Epoch (seconds)</td><td id="d2e-seconds"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('d2e-seconds')">Copy</button></td></tr>
+            <tr><td>Epoch (milliseconds)</td><td id="d2e-millis"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('d2e-millis')">Copy</button></td></tr>
+            <tr><td>ISO 8601 (UTC)</td><td id="d2e-iso"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('d2e-iso')">Copy</button></td></tr>
+            <tr><td>GMT / UTC</td><td id="d2e-gmt"></td><td class="copy-cell"><button class="copy-btn" onclick="copyText('d2e-gmt')">Copy</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Duration converter -->
+    <div class="tool-card">
+      <div class="tool-card-header">Seconds → Duration</div>
+      <div class="tool-card-body">
+        <div class="converter-row">
+          <label for="durInput">Seconds:</label>
+          <input type="number" id="durInput" placeholder="e.g. 86400" min="0" />
+          <button onclick="convertDuration()">Convert</button>
+        </div>
+        <div class="error-msg" id="durError" hidden></div>
+        <table class="result-table" id="durResult" hidden>
+          <tbody>
+            <tr><td>Human readable</td><td id="dur-human"></td></tr>
+            <tr><td>Days</td><td id="dur-days"></td></tr>
+            <tr><td>Hours</td><td id="dur-hours"></td></tr>
+            <tr><td>Minutes</td><td id="dur-minutes"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+
+    <!-- Code snippets -->
+    <div class="tool-card" id="code-snippets">
+      <div class="tool-card-header">Get current epoch timestamp — code snippets</div>
+      <div class="tool-card-body">
+        <div class="snippet-grid">
+
+          <div class="snippet">
+            <div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>Math.floor(Date.now() / 1000)  <span class="cmt">// seconds</span>
+Date.now()                     <span class="cmt">// milliseconds</span></code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>import time
+int(time.time())               <span class="cmt"># seconds</span>
+time.time_ns() // 1_000_000    <span class="cmt"># milliseconds</span></code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">Bash / Shell <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>date +%s                       <span class="cmt"># seconds</span>
+date +%s%3N                    <span class="cmt"># milliseconds (GNU date)</span></code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">Go <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>import "time"
+time.Now().Unix()              // seconds
+time.Now().UnixMilli()         // milliseconds</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">Java <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>System.currentTimeMillis() / 1000L  // seconds
+System.currentTimeMillis()          // milliseconds
+Instant.now().getEpochSecond()      // Java 8+</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">PHP <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>time()                         // seconds
+round(microtime(true) * 1000)  // milliseconds</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">PostgreSQL <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>EXTRACT(EPOCH FROM NOW())::bigint
+-- or
+SELECT FLOOR(EXTRACT(EPOCH FROM NOW()));</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">MySQL <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>SELECT UNIX_TIMESTAMP();
+SELECT UNIX_TIMESTAMP(NOW());</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">Ruby <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>Time.now.to_i                  # seconds
+Time.now.to_f.round(3)         # milliseconds</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">Rust <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>use std::time::{SystemTime, UNIX_EPOCH};
+SystemTime::now()
+  .duration_since(UNIX_EPOCH)
+  .unwrap().as_secs()           // seconds</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">C# <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>DateTimeOffset.UtcNow.ToUnixTimeSeconds()      // seconds
+DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() // ms</code></pre>
+          </div>
+
+          <div class="snippet">
+            <div class="snippet-lang">Swift <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div>
+            <pre><code>Int(Date().timeIntervalSince1970)        // seconds
+Int(Date().timeIntervalSince1970 * 1000) // ms</code></pre>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Reference table -->
+    <div class="info-section">
+      <h2>Quick reference — common durations in seconds</h2>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Duration</th><th>Seconds</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1 minute</td><td>60</td></tr>
+          <tr><td>1 hour</td><td>3,600</td></tr>
+          <tr><td>1 day</td><td>86,400</td></tr>
+          <tr><td>1 week</td><td>604,800</td></tr>
+          <tr><td>30 days</td><td>2,592,000</td></tr>
+          <tr><td>1 year (365 days)</td><td>31,536,000</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top:18px">Notable epoch timestamps</h2>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Epoch (seconds)</th><th>Date (UTC)</th><th>Significance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>1970-01-01 00:00:00</td><td>The Unix epoch</td></tr>
+          <tr><td>1,000,000,000</td><td>2001-09-09 01:46:40</td><td>1 billion seconds</td></tr>
+          <tr><td>1,234,567,890</td><td>2009-02-13 23:31:30</td><td>Widely celebrated milestone</td></tr>
+          <tr><td>1,500,000,000</td><td>2017-07-14 02:40:00</td><td>1.5 billion seconds</td></tr>
+          <tr><td>2,000,000,000</td><td>2033-05-18 03:33:20</td><td>2 billion seconds</td></tr>
+          <tr><td>2,147,483,647</td><td>2038-01-19 03:14:07</td><td>32-bit signed int max (Y2K38)</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:12px"><a href="/what-is-unix-time.html">Full guide: What is Unix Time, the Y2038 problem, and more →</a></p>
+    </div>
+
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="footerYear"></span> EpochTime.live — Unix timestamp converter for developers</p>
+      <nav>
+        <a href="/">Converter</a>
+        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
