@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in JavaScript — Date.now(), getTime(), epoch conversion | EpochTime.live</title>
+  <meta name="description" content="How to get the current Unix timestamp in JavaScript. Convert epoch to date, date to epoch, format timestamps, add/subtract time. Code examples with Date.now(), getTime(), and Intl." />
+  <meta name="keywords" content="javascript unix timestamp, javascript epoch time, Date.now seconds, javascript timestamp to date, javascript date to epoch, convert epoch javascript" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-javascript.html" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Unix Timestamp in JavaScript — Complete Guide",
+    "description": "How to get, convert, and manipulate Unix timestamps in JavaScript with code examples.",
+    "url": "https://epochtime.live/unix-timestamp-javascript.html",
+    "publisher": { "@type": "Organization", "name": "EpochTime.live", "url": "https://epochtime.live/" }
+  }
+  </script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in JavaScript</h1>
+      <p>JavaScript provides several built-in ways to get and work with Unix timestamps. Here's everything you need.</p>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// Seconds (standard Unix timestamp)
+Math.floor(Date.now() / 1000)       // e.g. 1700000000
+
+// Milliseconds (used by most JS APIs)
+Date.now()                           // e.g. 1700000000000
+
+// Alternative ways
+Math.floor(new Date() / 1000)
+new Date().getTime()                 // milliseconds
++new Date()                          // milliseconds (unary +)</code></pre></div>
+
+      <h2>Convert epoch timestamp to Date</h2>
+      <div class="snippet"><div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// If you have seconds, multiply by 1000 for JS Date
+const epoch = 1700000000;
+const date = new Date(epoch * 1000);
+
+console.log(date.toISOString());     // "2023-11-14T22:13:20.000Z"
+console.log(date.toUTCString());     // "Tue, 14 Nov 2023 22:13:20 GMT"
+console.log(date.toLocaleString());  // local time string</code></pre></div>
+
+      <h2>Convert Date to epoch timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// From a Date object
+const date = new Date('2023-11-14T22:13:20Z');
+const epochSeconds = Math.floor(date.getTime() / 1000);  // 1700000000
+const epochMs = date.getTime();                           // 1700000000000
+
+// From a date string
+Math.floor(new Date('2026-01-01').getTime() / 1000)
+
+// From specific components (UTC)
+Math.floor(Date.UTC(2026, 0, 1, 0, 0, 0) / 1000)  // months are 0-indexed</code></pre></div>
+
+      <h2>Format epoch as readable date</h2>
+      <div class="snippet"><div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>const d = new Date(1700000000 * 1000);
+
+// ISO 8601 (best for APIs and logs)
+d.toISOString()                      // "2023-11-14T22:13:20.000Z"
+
+// Locale-aware formatting
+d.toLocaleString('en-US', { timeZone: 'America/New_York' })
+
+// Custom format using Intl.DateTimeFormat
+const fmt = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric', month: '2-digit', day: '2-digit',
+  hour: '2-digit', minute: '2-digit', second: '2-digit',
+  timeZone: 'UTC', hour12: false
+});
+fmt.format(d);  // "14/11/2023, 22:13:20"</code></pre></div>
+
+      <h2>Add / subtract time from a timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>const now = Math.floor(Date.now() / 1000);
+
+const oneHourLater   = now + 3600;
+const oneDayLater    = now + 86400;
+const oneWeekLater   = now + 604800;
+const thirtyDaysAgo  = now - (30 * 86400);</code></pre></div>
+
+      <h2>Check if a timestamp is expired (e.g. JWT)</h2>
+      <div class="snippet"><div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>function isExpired(epochSeconds) {
+  return Math.floor(Date.now() / 1000) > epochSeconds;
+}
+
+isExpired(1700000000);  // true — that date is in the past</code></pre></div>
+
+      <h2>Relative time ("5 minutes ago")</h2>
+      <div class="snippet"><div class="snippet-lang">JavaScript <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// Using Intl.RelativeTimeFormat (modern browsers)
+function relativeTime(epochSeconds) {
+  const diff = epochSeconds - Math.floor(Date.now() / 1000);
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+  const units = [
+    ['year', 31536000], ['month', 2592000], ['week', 604800],
+    ['day', 86400], ['hour', 3600], ['minute', 60], ['second', 1]
+  ];
+  for (const [unit, secs] of units) {
+    if (Math.abs(diff) >= secs) {
+      return rtf.format(Math.round(diff / secs), unit);
+    }
+  }
+  return 'just now';
+}
+
+relativeTime(Date.now() / 1000 - 300);  // "5 minutes ago"</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any JavaScript timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="fy"></span> EpochTime.live</p>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

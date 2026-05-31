@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in C# — DateTimeOffset, ToUnixTimeSeconds | EpochTime.live</title>
+  <meta name="description" content="How to get and convert Unix timestamps in C# using DateTimeOffset.ToUnixTimeSeconds(), DateTime, and TimeSpan. .NET epoch conversion examples." />
+  <meta name="keywords" content="csharp unix timestamp, c# epoch time, DateTimeOffset ToUnixTimeSeconds, c# datetime to epoch, c# epoch to datetime, dotnet unix timestamp" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-csharp.html" />
+  <link rel="stylesheet" href="style.css" /><link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/" class="logo">EpochTime.live</a><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav></div></header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in C#</h1>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">C# <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// .NET 4.6+ (recommended)
+long seconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+long millis  = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+// Legacy approach
+long legacySeconds = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;</code></pre></div>
+
+      <h2>Convert epoch to DateTime</h2>
+      <div class="snippet"><div class="snippet-lang">C# <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>long epoch = 1700000000L;
+
+// Using DateTimeOffset (recommended)
+DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(epoch);
+Console.WriteLine(dto.UtcDateTime);          // 2023-11-14 22:13:20
+Console.WriteLine(dto.ToString("o"));        // ISO 8601
+
+// From milliseconds
+DateTimeOffset dtoMs = DateTimeOffset.FromUnixTimeMilliseconds(1700000000000L);
+
+// Convert to local time
+DateTimeOffset local = dto.ToLocalTime();</code></pre></div>
+
+      <h2>Convert DateTime to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">C# <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>DateTime dt = new DateTime(2023, 11, 14, 22, 13, 20, DateTimeKind.Utc);
+long epoch = new DateTimeOffset(dt).ToUnixTimeSeconds();
+
+// From a parsed string
+DateTime parsed = DateTime.Parse("2023-11-14T22:13:20Z").ToUniversalTime();
+long epoch2 = new DateTimeOffset(parsed).ToUnixTimeSeconds();</code></pre></div>
+
+      <h2>Timezones</h2>
+      <div class="snippet"><div class="snippet-lang">C# <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>long epoch = 1700000000L;
+DateTimeOffset utc = DateTimeOffset.FromUnixTimeSeconds(epoch);
+
+TimeZoneInfo ist = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+DateTime istTime = TimeZoneInfo.ConvertTimeFromUtc(utc.UtcDateTime, ist);
+Console.WriteLine(istTime);                  // 2023-11-15 03:43:20</code></pre></div>
+
+      <h2>Time arithmetic</h2>
+      <div class="snippet"><div class="snippet-lang">C# <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>DateTimeOffset now = DateTimeOffset.UtcNow;
+DateTimeOffset tomorrow = now.AddDays(1);
+DateTimeOffset anHourAgo = now.AddHours(-1);
+
+// Check expiry
+long expiryEpoch = 1700000000L;
+bool isExpired = DateTimeOffset.UtcNow.ToUnixTimeSeconds() > expiryEpoch;</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any C# timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer"><div class="container"><p>© <span id="fy"></span> EpochTime.live</p><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav></div></footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in Ruby — Time.now.to_i, epoch conversion | EpochTime.live</title>
+  <meta name="description" content="How to get and convert Unix timestamps in Ruby. Time.now.to_i, epoch to Time, timezone handling, ActiveSupport. Ruby timestamp examples." />
+  <meta name="keywords" content="ruby unix timestamp, ruby epoch time, Time.now.to_i ruby, ruby epoch to time, ruby convert timestamp, ruby on rails timestamp" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-ruby.html" />
+  <link rel="stylesheet" href="style.css" /><link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/" class="logo">EpochTime.live</a><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav></div></header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in Ruby</h1>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">Ruby <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>Time.now.to_i                       # seconds: 1700000000
+Time.now.to_f                       # float seconds with microseconds
+(Time.now.to_f * 1000).round        # milliseconds
+
+# Process.clock_gettime is more precise
+Process.clock_gettime(Process::CLOCK_REALTIME).to_i</code></pre></div>
+
+      <h2>Convert epoch to Time</h2>
+      <div class="snippet"><div class="snippet-lang">Ruby <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>epoch = 1700000000
+
+Time.at(epoch)                      # local time
+Time.at(epoch).utc                  # UTC
+Time.at(epoch).iso8601              # "2023-11-14T22:13:20+00:00"
+
+# From milliseconds
+Time.at(epoch / 1000.0)
+Time.at(0, epoch, :millisecond)     # Ruby 2.7+
+
+# Format
+Time.at(epoch).utc.strftime('%Y-%m-%d %H:%M:%S')  # "2023-11-14 22:13:20"</code></pre></div>
+
+      <h2>Convert Time to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">Ruby <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>Time.parse('2023-11-14 22:13:20 UTC').to_i    # 1700000000
+Time.parse('2023-11-14T22:13:20Z').to_i
+
+require 'time'
+Time.iso8601('2023-11-14T22:13:20Z').to_i</code></pre></div>
+
+      <h2>Timezones</h2>
+      <div class="snippet"><div class="snippet-lang">Ruby <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>require 'tzinfo'
+
+tz = TZInfo::Timezone.get('Asia/Kolkata')
+local = tz.to_local(Time.at(1700000000).utc)
+puts local                           # 2023-11-15 03:43:20 +0530</code></pre></div>
+
+      <h2>Rails / ActiveSupport</h2>
+      <div class="snippet"><div class="snippet-lang">Ruby on Rails <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>Time.current.to_i                    # current epoch (respects Time.zone)
+Time.zone.at(1700000000)             # epoch → Time in app timezone
+1700000000.seconds.ago               # relative time
+2.hours.from_now.to_i                # future epoch
+
+# ActiveRecord: stored as integer
+user.created_at.to_i                 # epoch from datetime column</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any Ruby timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer"><div class="container"><p>© <span id="fy"></span> EpochTime.live</p><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav></div></footer>
+  <script src="app.js"></script>
+</body>
+</html>

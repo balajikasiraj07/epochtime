@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Epoch Time in Python — time, datetime, timezone conversion | EpochTime.live</title>
+  <meta name="description" content="How to get Unix timestamp in Python using time.time(), datetime, and pytz. Convert epoch to datetime, datetime to epoch, handle timezones. Python 3 examples." />
+  <meta name="keywords" content="python epoch time, python unix timestamp, python datetime to epoch, python epoch to datetime, python timestamp timezone, time.time python" />
+  <link rel="canonical" href="https://epochtime.live/epoch-time-python.html" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Epoch Time in Python — Complete Guide","url":"https://epochtime.live/epoch-time-python.html","publisher":{"@type":"Organization","name":"EpochTime.live","url":"https://epochtime.live/"}}</script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Epoch Time in Python</h1>
+      <p>Python's <code>time</code> and <code>datetime</code> modules make it easy to work with Unix timestamps. Here's the complete reference.</p>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>import time
+
+int(time.time())                    # seconds, e.g. 1700000000
+time.time()                         # float with sub-second precision
+time.time_ns()                      # nanoseconds (Python 3.7+)
+time.time_ns() // 1_000_000         # milliseconds</code></pre></div>
+
+      <h2>Convert epoch to datetime</h2>
+      <div class="snippet"><div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>from datetime import datetime, timezone
+
+epoch = 1700000000
+
+# UTC datetime (recommended — always timezone-aware)
+dt_utc = datetime.fromtimestamp(epoch, tz=timezone.utc)
+print(dt_utc)                       # 2023-11-14 22:13:20+00:00
+print(dt_utc.isoformat())           # "2023-11-14T22:13:20+00:00"
+
+# Local time (naive — no timezone info)
+dt_local = datetime.fromtimestamp(epoch)
+print(dt_local)
+
+# UTC only (alternative)
+dt_utc2 = datetime.utcfromtimestamp(epoch)  # naive UTC</code></pre></div>
+
+      <h2>Convert datetime to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>from datetime import datetime, timezone
+
+# From an aware datetime (recommended)
+dt = datetime(2023, 11, 14, 22, 13, 20, tzinfo=timezone.utc)
+epoch = int(dt.timestamp())         # 1700000000
+
+# From a naive datetime (assumes local time)
+dt_naive = datetime(2023, 11, 14, 22, 13, 20)
+epoch = int(dt_naive.timestamp())
+
+# From a date string
+dt = datetime.fromisoformat("2023-11-14T22:13:20+00:00")
+epoch = int(dt.timestamp())</code></pre></div>
+
+      <h2>Handle timezones with zoneinfo (Python 3.9+)</h2>
+      <div class="snippet"><div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>from datetime import datetime
+from zoneinfo import ZoneInfo
+
+epoch = 1700000000
+
+# Convert to a specific timezone
+dt_ist = datetime.fromtimestamp(epoch, tz=ZoneInfo("Asia/Kolkata"))
+print(dt_ist)                       # 2023-11-15 03:43:20+05:30
+
+dt_ny = datetime.fromtimestamp(epoch, tz=ZoneInfo("America/New_York"))
+print(dt_ny)                        # 2023-11-14 17:13:20-05:00</code></pre></div>
+
+      <h2>Format a timestamp as string</h2>
+      <div class="snippet"><div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>from datetime import datetime, timezone
+
+dt = datetime.fromtimestamp(1700000000, tz=timezone.utc)
+
+dt.strftime("%Y-%m-%d %H:%M:%S")    # "2023-11-14 22:13:20"
+dt.strftime("%d/%m/%Y %H:%M")       # "14/11/2023 22:13"
+dt.isoformat()                      # "2023-11-14T22:13:20+00:00"</code></pre></div>
+
+      <h2>Add / subtract time</h2>
+      <div class="snippet"><div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>from datetime import datetime, timezone, timedelta
+
+now = datetime.now(timezone.utc)
+one_day_later  = now + timedelta(days=1)
+one_hour_ago   = now - timedelta(hours=1)
+thirty_days    = now + timedelta(days=30)
+
+# Back to epoch
+int(one_day_later.timestamp())</code></pre></div>
+
+      <h2>Parse common log timestamp formats</h2>
+      <div class="snippet"><div class="snippet-lang">Python <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>from datetime import datetime, timezone
+
+# ISO 8601
+datetime.fromisoformat("2023-11-14T22:13:20+00:00")
+
+# Custom format
+datetime.strptime("14/Nov/2023:22:13:20 +0000", "%d/%b/%Y:%H:%M:%S %z")
+
+# Unix ms from JS (e.g. Date.now())
+ms = 1700000000000
+datetime.fromtimestamp(ms / 1000, tz=timezone.utc)</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any Python timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="fy"></span> EpochTime.live</p>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in Rust — SystemTime, UNIX_EPOCH, epoch conversion | EpochTime.live</title>
+  <meta name="description" content="How to get Unix timestamps in Rust using SystemTime and UNIX_EPOCH. Convert epoch to datetime with chrono crate. Rust timestamp examples." />
+  <meta name="keywords" content="rust unix timestamp, rust epoch time, rust SystemTime UNIX_EPOCH, rust chrono timestamp, rust timestamp to datetime" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-rust.html" />
+  <link rel="stylesheet" href="style.css" /><link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/" class="logo">EpochTime.live</a><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav></div></header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in Rust</h1>
+      <p>Rust's standard library provides <code>SystemTime</code> for basic timestamps. The <code>chrono</code> crate is the go-to for full datetime handling.</p>
+
+      <h2>Get current timestamp (std only)</h2>
+      <div class="snippet"><div class="snippet-lang">Rust <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>use std::time::{SystemTime, UNIX_EPOCH};
+
+let epoch = SystemTime::now()
+    .duration_since(UNIX_EPOCH)
+    .expect("Time went backwards");
+
+println!("{}", epoch.as_secs());        // seconds
+println!("{}", epoch.as_millis());      // milliseconds
+println!("{}", epoch.as_nanos());       // nanoseconds</code></pre></div>
+
+      <h2>Using chrono (recommended)</h2>
+      <div class="snippet"><div class="snippet-lang">Rust — Cargo.toml <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>[dependencies]
+chrono = "0.4"</code></pre></div>
+
+      <div class="snippet"><div class="snippet-lang">Rust — chrono <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>use chrono::{Utc, TimeZone, DateTime};
+
+// Current timestamp
+let now: DateTime&lt;Utc&gt; = Utc::now();
+println!("{}", now.timestamp());          // seconds
+println!("{}", now.timestamp_millis());   // milliseconds
+println!("{}", now.to_rfc3339());         // ISO 8601
+
+// Epoch to DateTime
+let dt = Utc.timestamp_opt(1700000000, 0).unwrap();
+println!("{}", dt);                       // 2023-11-14 22:13:20 UTC
+println!("{}", dt.to_rfc3339());          // "2023-11-14T22:13:20+00:00"
+println!("{}", dt.format("%Y-%m-%d %H:%M:%S"));
+
+// DateTime to epoch
+let epoch: i64 = dt.timestamp();</code></pre></div>
+
+      <h2>Timezone conversion with chrono-tz</h2>
+      <div class="snippet"><div class="snippet-lang">Rust <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// Cargo.toml: chrono-tz = "0.8"
+use chrono::Utc;
+use chrono_tz::Asia::Kolkata;
+
+let utc = Utc.timestamp_opt(1700000000, 0).unwrap();
+let ist = utc.with_timezone(&Kolkata);
+println!("{}", ist);                     // 2023-11-15 03:43:20 IST</code></pre></div>
+
+      <h2>Time arithmetic</h2>
+      <div class="snippet"><div class="snippet-lang">Rust <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>use chrono::{Utc, Duration};
+
+let now = Utc::now();
+let future = now + Duration::days(1);
+let past   = now - Duration::hours(6);
+
+// Check expiry
+let expiry = Utc.timestamp_opt(1700000000, 0).unwrap();
+if Utc::now() > expiry {
+    println!("expired");
+}</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any Rust timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer"><div class="container"><p>© <span id="fy"></span> EpochTime.live</p><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav></div></footer>
+  <script src="app.js"></script>
+</body>
+</html>

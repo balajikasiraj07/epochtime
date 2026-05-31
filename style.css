@@ -450,6 +450,29 @@ button:hover { background: var(--accent-hover); }
 
 .ref-table tr:nth-child(even) td { background: #fafafa; }
 
+/* Language grid */
+.lang-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.lang-grid a {
+  background: #f0f0f0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.lang-grid a:hover {
+  background: #e0ecff;
+  border-color: var(--accent);
+}
+
 /* ===== Info page ===== */
 .info-page {
   background: var(--white);

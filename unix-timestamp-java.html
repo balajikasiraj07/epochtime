@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in Java — Instant, System.currentTimeMillis, epoch | EpochTime.live</title>
+  <meta name="description" content="How to get Unix timestamps in Java using Instant, System.currentTimeMillis, and LocalDateTime. Convert epoch to date in Java with examples for Java 8+." />
+  <meta name="keywords" content="java unix timestamp, java epoch time, java Instant unix, System.currentTimeMillis seconds, java convert epoch to date, java timestamp to localdate" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-java.html" />
+  <link rel="stylesheet" href="style.css" /><link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/" class="logo">EpochTime.live</a><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav></div></header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in Java</h1>
+      <p>Java 8+ introduced the <code>java.time</code> package (JSR-310) which is the recommended way to work with timestamps. Avoid the old <code>Date</code> and <code>Calendar</code> classes.</p>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">Java <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>import java.time.Instant;
+
+// Recommended (Java 8+)
+long seconds = Instant.now().getEpochSecond();       // 1700000000
+long millis  = Instant.now().toEpochMilli();         // 1700000000000
+
+// Legacy (still works)
+long millisLegacy = System.currentTimeMillis();
+long secondsLegacy = System.currentTimeMillis() / 1000L;</code></pre></div>
+
+      <h2>Convert epoch to Instant / LocalDateTime</h2>
+      <div class="snippet"><div class="snippet-lang">Java <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>import java.time.*;
+
+long epoch = 1700000000L;
+
+// To Instant
+Instant instant = Instant.ofEpochSecond(epoch);
+
+// To UTC datetime
+LocalDateTime utc = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+System.out.println(utc);             // 2023-11-14T22:13:20
+
+// To ZonedDateTime with timezone
+ZonedDateTime zdt = instant.atZone(ZoneId.of("Asia/Kolkata"));
+System.out.println(zdt);             // 2023-11-15T03:43:20+05:30[Asia/Kolkata]
+
+// From milliseconds
+Instant fromMs = Instant.ofEpochMilli(1700000000000L);</code></pre></div>
+
+      <h2>Convert LocalDateTime to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">Java <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>import java.time.*;
+
+// From LocalDateTime (specify timezone explicitly)
+LocalDateTime ldt = LocalDateTime.of(2023, 11, 14, 22, 13, 20);
+long epoch = ldt.toEpochSecond(ZoneOffset.UTC);       // 1700000000
+
+// From ZonedDateTime
+ZonedDateTime zdt = ZonedDateTime.of(ldt, ZoneId.of("UTC"));
+long epoch2 = zdt.toEpochSecond();
+
+// From ISO string
+Instant instant = Instant.parse("2023-11-14T22:13:20Z");
+long epoch3 = instant.getEpochSecond();</code></pre></div>
+
+      <h2>Format timestamps</h2>
+      <div class="snippet"><div class="snippet-lang">Java <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+Instant instant = Instant.ofEpochSecond(1700000000L);
+ZonedDateTime zdt = instant.atZone(ZoneOffset.UTC);
+
+// ISO 8601
+DateTimeFormatter.ISO_INSTANT.format(instant);       // "2023-11-14T22:13:20Z"
+
+// Custom
+zdt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+zdt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));</code></pre></div>
+
+      <h2>Time arithmetic</h2>
+      <div class="snippet"><div class="snippet-lang">Java <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>import java.time.*;
+
+Instant now = Instant.now();
+Instant future = now.plus(Duration.ofDays(1));
+Instant past   = now.minus(Duration.ofHours(6));
+
+// Check if expired
+Instant expiry = Instant.ofEpochSecond(1700000000L);
+if (Instant.now().isAfter(expiry)) System.out.println("expired");</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any Java timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer"><div class="container"><p>© <span id="fy"></span> EpochTime.live</p><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav></div></footer>
+  <script src="app.js"></script>
+</body>
+</html>

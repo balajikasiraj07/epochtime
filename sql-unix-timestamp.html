@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Unix Timestamp — PostgreSQL, MySQL, SQLite epoch conversion | EpochTime.live</title>
+  <meta name="description" content="How to get and convert Unix timestamps in SQL. PostgreSQL EXTRACT EPOCH, MySQL UNIX_TIMESTAMP, SQLite strftime. Convert epoch to date in SQL with examples." />
+  <meta name="keywords" content="sql unix timestamp, postgresql epoch, mysql unix timestamp, sqlite epoch, sql convert epoch to date, EXTRACT EPOCH postgresql, UNIX_TIMESTAMP mysql" />
+  <link rel="canonical" href="https://epochtime.live/sql-unix-timestamp.html" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"SQL Unix Timestamp — PostgreSQL, MySQL, SQLite","url":"https://epochtime.live/sql-unix-timestamp.html","publisher":{"@type":"Organization","name":"EpochTime.live","url":"https://epochtime.live/"}}</script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in SQL</h1>
+      <p>Each database handles epoch timestamps slightly differently. Here's the reference for PostgreSQL, MySQL, and SQLite.</p>
+
+      <h2>PostgreSQL</h2>
+      <div class="snippet"><div class="snippet-lang">PostgreSQL <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>-- Current epoch (seconds)
+SELECT EXTRACT(EPOCH FROM NOW())::bigint;
+SELECT FLOOR(EXTRACT(EPOCH FROM NOW()));
+
+-- Epoch to timestamp
+SELECT TO_TIMESTAMP(1700000000);
+SELECT TO_TIMESTAMP(1700000000) AT TIME ZONE 'UTC';
+
+-- Timestamp to epoch
+SELECT EXTRACT(EPOCH FROM '2023-11-14 22:13:20'::timestamp)::bigint;
+SELECT EXTRACT(EPOCH FROM created_at)::bigint FROM users;
+
+-- Milliseconds to timestamp
+SELECT TO_TIMESTAMP(1700000000000 / 1000.0);
+
+-- Filter rows within last 24 hours
+SELECT * FROM events
+WHERE created_at > NOW() - INTERVAL '24 hours';
+
+-- Filter using epoch column
+SELECT * FROM events
+WHERE epoch_col > EXTRACT(EPOCH FROM NOW()) - 86400;</code></pre></div>
+
+      <h2>MySQL / MariaDB</h2>
+      <div class="snippet"><div class="snippet-lang">MySQL <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>-- Current epoch (seconds)
+SELECT UNIX_TIMESTAMP();
+SELECT UNIX_TIMESTAMP(NOW());
+
+-- Epoch to datetime
+SELECT FROM_UNIXTIME(1700000000);
+SELECT FROM_UNIXTIME(1700000000, '%Y-%m-%d %H:%i:%s');
+SELECT FROM_UNIXTIME(1700000000, '%Y-%m-%dT%H:%i:%sZ');  -- ISO 8601
+
+-- Datetime to epoch
+SELECT UNIX_TIMESTAMP('2023-11-14 22:13:20');
+SELECT UNIX_TIMESTAMP(created_at) FROM users;
+
+-- Filter last 24 hours
+SELECT * FROM events
+WHERE created_at > NOW() - INTERVAL 24 HOUR;
+
+-- Milliseconds
+SELECT UNIX_TIMESTAMP() * 1000;  -- current ms epoch</code></pre></div>
+
+      <h2>SQLite</h2>
+      <div class="snippet"><div class="snippet-lang">SQLite <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>-- Current epoch (seconds)
+SELECT strftime('%s', 'now');
+SELECT unixepoch();                  -- SQLite 3.38+
+
+-- Epoch to datetime
+SELECT datetime(1700000000, 'unixepoch');
+SELECT datetime(1700000000, 'unixepoch', 'localtime');
+
+-- Datetime to epoch
+SELECT strftime('%s', '2023-11-14 22:13:20');
+SELECT unixepoch('2023-11-14T22:13:20');
+
+-- Filter last 7 days
+SELECT * FROM events
+WHERE created_at > strftime('%s', 'now', '-7 days');
+
+-- Human-readable from stored epoch
+SELECT datetime(created_at, 'unixepoch') FROM events;</code></pre></div>
+
+      <h2>SQL Server</h2>
+      <div class="snippet"><div class="snippet-lang">SQL Server <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>-- Current epoch (seconds)
+SELECT DATEDIFF(SECOND, '1970-01-01', GETUTCDATE());
+
+-- Epoch to datetime
+SELECT DATEADD(SECOND, 1700000000, '1970-01-01');
+
+-- Datetime to epoch
+SELECT DATEDIFF(SECOND, '1970-01-01', '2023-11-14 22:13:20');</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any SQL timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="fy"></span> EpochTime.live</p>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in PHP — time(), DateTime, Carbon | EpochTime.live</title>
+  <meta name="description" content="How to get and convert Unix timestamps in PHP using time(), DateTime, strtotime(), and Carbon. PHP epoch to date conversion with examples." />
+  <meta name="keywords" content="php unix timestamp, php epoch time, php time() function, php datetime to epoch, php epoch to date, php strtotime, carbon timestamp php" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-php.html" />
+  <link rel="stylesheet" href="style.css" /><link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/" class="logo">EpochTime.live</a><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav></div></header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in PHP</h1>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">PHP <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>time()                              // seconds: 1700000000
+microtime(true)                     // float seconds with microseconds
+round(microtime(true) * 1000)       // milliseconds
+
+// Store in variable
+$now = time();</code></pre></div>
+
+      <h2>Convert epoch to date</h2>
+      <div class="snippet"><div class="snippet-lang">PHP <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>$epoch = 1700000000;
+
+date('Y-m-d H:i:s', $epoch)        // "2023-11-14 22:13:20" (local time)
+date('Y-m-d H:i:s T', $epoch)      // with timezone abbreviation
+gmdate('Y-m-d H:i:s', $epoch)      // "2023-11-14 22:13:20" (always UTC)
+date('c', $epoch)                   // ISO 8601: "2023-11-14T22:13:20+00:00"
+date('r', $epoch)                   // RFC 2822</code></pre></div>
+
+      <h2>Convert date to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">PHP <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>strtotime('2023-11-14 22:13:20')    // 1700000000 (local time)
+strtotime('2023-11-14T22:13:20Z')   // UTC string
+
+// Using DateTime (recommended — timezone-aware)
+$dt = new DateTime('2023-11-14T22:13:20', new DateTimeZone('UTC'));
+$epoch = $dt->getTimestamp();        // 1700000000
+
+// From local time
+$dt = new DateTime('2023-11-15 03:43:20', new DateTimeZone('Asia/Kolkata'));
+echo $dt->getTimestamp();            // 1700000000</code></pre></div>
+
+      <h2>Timezones with DateTime</h2>
+      <div class="snippet"><div class="snippet-lang">PHP <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>$epoch = 1700000000;
+$dt = new DateTime("@$epoch");       // @ prefix = epoch
+
+// Display in a specific timezone
+$dt->setTimezone(new DateTimeZone('Asia/Kolkata'));
+echo $dt->format('Y-m-d H:i:s T');  // 2023-11-15 03:43:20 IST
+
+$dt->setTimezone(new DateTimeZone('America/New_York'));
+echo $dt->format('Y-m-d H:i:s T');  // 2023-11-14 17:13:20 EST</code></pre></div>
+
+      <h2>Using Carbon (Laravel / standalone)</h2>
+      <div class="snippet"><div class="snippet-lang">PHP — Carbon <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>use Carbon\Carbon;
+
+// Current timestamp
+Carbon::now()->timestamp             // seconds
+Carbon::now()->getTimestampMs()      // milliseconds
+
+// From epoch
+$dt = Carbon::createFromTimestamp(1700000000);
+$dt->toIso8601String()               // "2023-11-14T22:13:20+00:00"
+$dt->diffForHumans()                 // "2 years ago"
+
+// To epoch
+Carbon::parse('2023-11-14 22:13:20 UTC')->timestamp</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any PHP timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer"><div class="container"><p>© <span id="fy"></span> EpochTime.live</p><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav></div></footer>
+  <script src="app.js"></script>
+</body>
+</html>

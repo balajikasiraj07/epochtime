@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in Go — time.Now().Unix(), epoch conversion | EpochTime.live</title>
+  <meta name="description" content="How to get Unix timestamps in Go using the time package. Convert epoch to time.Time, format timestamps, handle timezones, and do time arithmetic in Go." />
+  <meta name="keywords" content="golang unix timestamp, go epoch time, time.Now().Unix(), golang timestamp to time, go convert epoch to date, golang time package" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-go.html" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Unix Timestamp in Go","url":"https://epochtime.live/unix-timestamp-go.html","publisher":{"@type":"Organization","name":"EpochTime.live","url":"https://epochtime.live/"}}</script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in Go</h1>
+      <p>Go's <code>time</code> package provides clean, idiomatic ways to work with Unix timestamps.</p>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">Go <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    now := time.Now()
+
+    fmt.Println(now.Unix())          // seconds:      1700000000
+    fmt.Println(now.UnixMilli())     // milliseconds: 1700000000000
+    fmt.Println(now.UnixMicro())     // microseconds
+    fmt.Println(now.UnixNano())      // nanoseconds
+}</code></pre></div>
+
+      <h2>Convert epoch to time.Time</h2>
+      <div class="snippet"><div class="snippet-lang">Go <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// From seconds
+t := time.Unix(1700000000, 0)
+fmt.Println(t.UTC())                 // 2023-11-14 22:13:20 +0000 UTC
+
+// From milliseconds
+ms := int64(1700000000000)
+t = time.UnixMilli(ms)
+
+// From nanoseconds
+ns := int64(1700000000000000000)
+t = time.Unix(0, ns)</code></pre></div>
+
+      <h2>Convert time.Time to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">Go <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>t, _ := time.Parse(time.RFC3339, "2023-11-14T22:13:20Z")
+
+fmt.Println(t.Unix())                // 1700000000
+fmt.Println(t.UnixMilli())           // 1700000000000</code></pre></div>
+
+      <h2>Format timestamps</h2>
+      <div class="snippet"><div class="snippet-lang">Go <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>t := time.Unix(1700000000, 0).UTC()
+
+// Go uses a reference time: Mon Jan 2 15:04:05 MST 2006
+t.Format(time.RFC3339)               // "2023-11-14T22:13:20Z"
+t.Format(time.RFC1123)               // "Tue, 14 Nov 2023 22:13:20 UTC"
+t.Format("2006-01-02 15:04:05")      // "2023-11-14 22:13:20"
+t.Format("02/01/2006")               // "14/11/2023"</code></pre></div>
+
+      <h2>Timezones</h2>
+      <div class="snippet"><div class="snippet-lang">Go <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>t := time.Unix(1700000000, 0)
+
+// Convert to a specific timezone
+loc, _ := time.LoadLocation("Asia/Kolkata")
+tIST := t.In(loc)
+fmt.Println(tIST.Format("2006-01-02 15:04:05 MST"))  // 2023-11-15 03:43:20 IST
+
+loc2, _ := time.LoadLocation("America/New_York")
+fmt.Println(t.In(loc2).Format(time.RFC3339))          // 2023-11-14T17:13:20-05:00</code></pre></div>
+
+      <h2>Time arithmetic</h2>
+      <div class="snippet"><div class="snippet-lang">Go <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>now := time.Now()
+
+future := now.Add(24 * time.Hour)          // 1 day later
+past   := now.Add(-7 * 24 * time.Hour)    // 7 days ago
+
+// Duration between two times
+diff := future.Sub(past)
+fmt.Println(diff.Hours())                  // 192
+
+// Check if expired
+expiry := time.Unix(1700000000, 0)
+if time.Now().After(expiry) {
+    fmt.Println("expired")
+}</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any Go timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="fy"></span> EpochTime.live</p>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

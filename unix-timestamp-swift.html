@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unix Timestamp in Swift — Date, timeIntervalSince1970 | EpochTime.live</title>
+  <meta name="description" content="How to get and convert Unix timestamps in Swift using Date, timeIntervalSince1970, and DateFormatter. Swift epoch to date conversion with examples." />
+  <meta name="keywords" content="swift unix timestamp, swift epoch time, swift timeIntervalSince1970, swift Date epoch, swift timestamp to date, ios unix timestamp" />
+  <link rel="canonical" href="https://epochtime.live/unix-timestamp-swift.html" />
+  <link rel="stylesheet" href="style.css" /><link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header"><div class="container"><a href="/" class="logo">EpochTime.live</a><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav></div></header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Unix Timestamp in Swift</h1>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">Swift <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// Seconds (Double)
+Date().timeIntervalSince1970           // 1700000000.0
+
+// Integer seconds
+Int(Date().timeIntervalSince1970)      // 1700000000
+
+// Milliseconds
+Int(Date().timeIntervalSince1970 * 1000)</code></pre></div>
+
+      <h2>Convert epoch to Date</h2>
+      <div class="snippet"><div class="snippet-lang">Swift <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>let epoch: TimeInterval = 1700000000
+let date = Date(timeIntervalSince1970: epoch)
+
+// Format for display
+let formatter = DateFormatter()
+formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+formatter.timeZone = TimeZone(identifier: "UTC")
+print(formatter.string(from: date))    // "2023-11-14 22:13:20"
+
+// ISO 8601
+let iso = ISO8601DateFormatter()
+print(iso.string(from: date))          // "2023-11-14T22:13:20Z"</code></pre></div>
+
+      <h2>Convert Date to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">Swift <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>// From DateComponents
+var components = DateComponents()
+components.year = 2023; components.month = 11; components.day = 14
+components.hour = 22; components.minute = 13; components.second = 20
+components.timeZone = TimeZone(identifier: "UTC")
+
+if let date = Calendar.current.date(from: components) {
+    let epoch = Int(date.timeIntervalSince1970)  // 1700000000
+}
+
+// From ISO 8601 string
+let formatter = ISO8601DateFormatter()
+if let date = formatter.date(from: "2023-11-14T22:13:20Z") {
+    let epoch = Int(date.timeIntervalSince1970)
+}</code></pre></div>
+
+      <h2>Timezones</h2>
+      <div class="snippet"><div class="snippet-lang">Swift <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>let date = Date(timeIntervalSince1970: 1700000000)
+
+let formatter = DateFormatter()
+formatter.dateFormat = "yyyy-MM-dd HH:mm:ss zzz"
+formatter.timeZone = TimeZone(identifier: "Asia/Kolkata")
+print(formatter.string(from: date))    // "2023-11-15 03:43:20 IST"</code></pre></div>
+
+      <h2>Time arithmetic</h2>
+      <div class="snippet"><div class="snippet-lang">Swift <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>let now = Date()
+let tomorrow = now.addingTimeInterval(86400)
+let anHourAgo = now.addingTimeInterval(-3600)
+
+// Using Calendar
+let nextWeek = Calendar.current.date(byAdding: .day, value: 7, to: now)!
+
+// Check expiry
+let expiry = Date(timeIntervalSince1970: 1700000000)
+if Date() > expiry { print("expired") }</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any Swift timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer"><div class="container"><p>© <span id="fy"></span> EpochTime.live</p><nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav></div></footer>
+  <script src="app.js"></script>
+</body>
+</html>

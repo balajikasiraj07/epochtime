@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bash Epoch Timestamp — date +%s, convert, format | EpochTime.live</title>
+  <meta name="description" content="How to get and convert Unix timestamps in Bash and shell scripts. date +%s, convert epoch to date, date arithmetic, macOS vs Linux differences." />
+  <meta name="keywords" content="bash epoch timestamp, bash unix timestamp, date +%s, bash convert epoch to date, shell timestamp, bash date arithmetic, linux epoch time" />
+  <link rel="canonical" href="https://epochtime.live/bash-epoch-timestamp.html" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Bash Epoch Timestamp — Complete Guide","url":"https://epochtime.live/bash-epoch-timestamp.html","publisher":{"@type":"Organization","name":"EpochTime.live","url":"https://epochtime.live/"}}</script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+    <article class="info-page">
+      <h1>Bash Epoch Timestamp</h1>
+      <p>The <code>date</code> command is the standard tool for Unix timestamps in Bash. Note: Linux (GNU date) and macOS (BSD date) have different syntax for some operations.</p>
+
+      <h2>Get the current Unix timestamp</h2>
+      <div class="snippet"><div class="snippet-lang">Bash <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>date +%s                            # seconds (works on Linux + macOS)
+date +%s%3N                         # milliseconds (GNU/Linux only)
+date +%s%N                          # nanoseconds  (GNU/Linux only)
+
+# Store in a variable
+NOW=$(date +%s)
+echo $NOW</code></pre></div>
+
+      <h2>Convert epoch to human-readable date</h2>
+      <div class="snippet"><div class="snippet-lang">Bash — Linux (GNU date) <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>date -d @1700000000
+date -d @1700000000 '+%Y-%m-%d %H:%M:%S'   # 2023-11-14 22:13:20
+date -d @1700000000 --utc                   # force UTC output
+date -d @1700000000 '+%Y-%m-%dT%H:%M:%SZ' --utc  # ISO 8601</code></pre></div>
+
+      <div class="snippet"><div class="snippet-lang">Bash — macOS (BSD date) <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>date -r 1700000000
+date -r 1700000000 '+%Y-%m-%d %H:%M:%S'
+date -r 1700000000 -u '+%Y-%m-%dT%H:%M:%SZ'  # ISO 8601 UTC</code></pre></div>
+
+      <h2>Convert date string to epoch</h2>
+      <div class="snippet"><div class="snippet-lang">Bash — Linux (GNU date) <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>date -d "2023-11-14 22:13:20" +%s
+date -d "2023-11-14T22:13:20Z" +%s        # ISO 8601 UTC
+date -d "yesterday" +%s
+date -d "next monday" +%s
+date -d "2 hours ago" +%s</code></pre></div>
+
+      <div class="snippet"><div class="snippet-lang">Bash — macOS (BSD date) <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>date -j -f "%Y-%m-%d %H:%M:%S" "2023-11-14 22:13:20" +%s
+date -j -f "%Y-%m-%dT%H:%M:%S" "2023-11-14T22:13:20" +%s</code></pre></div>
+
+      <h2>Date arithmetic in scripts</h2>
+      <div class="snippet"><div class="snippet-lang">Bash <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>NOW=$(date +%s)
+
+ONE_HOUR_AGO=$((NOW - 3600))
+ONE_DAY_LATER=$((NOW + 86400))
+THIRTY_DAYS_AGO=$((NOW - 30 * 86400))
+
+# Check if a file was modified in the last hour
+FILE_MOD=$(date -r myfile.log +%s 2>/dev/null || stat -c %Y myfile.log)
+if (( NOW - FILE_MOD < 3600 )); then
+  echo "File modified within the last hour"
+fi</code></pre></div>
+
+      <h2>Measure script execution time</h2>
+      <div class="snippet"><div class="snippet-lang">Bash <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code>START=$(date +%s)
+
+# ... your script here ...
+sleep 2
+
+END=$(date +%s)
+ELAPSED=$((END - START))
+echo "Elapsed: ${ELAPSED}s"</code></pre></div>
+
+      <h2>Cross-platform solution (Python fallback)</h2>
+      <div class="snippet"><div class="snippet-lang">Bash <button class="copy-btn" onclick="copySnippet(this)">Copy</button></div><pre><code># Works on both Linux and macOS
+python3 -c "import time; print(int(time.time()))"
+
+# Convert epoch to date cross-platform
+python3 -c "from datetime import datetime,timezone; print(datetime.fromtimestamp(1700000000,tz=timezone.utc))"</code></pre></div>
+
+      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any shell timestamp instantly.</p>
+    </article>
+    <div class="ad-slot"><div class="ad-placeholder">Advertisement</div></div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="fy"></span> EpochTime.live</p>
+      <nav><a href="/">Converter</a><a href="/what-is-unix-time.html">Unix Time Guide</a><a href="/privacy.html">Privacy</a></nav>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
