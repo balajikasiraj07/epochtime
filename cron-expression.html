@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cron Expression Parser — Next Run Times, Human Readable | EpochTime.live</title>
+  <meta name="description" content="Parse any cron expression instantly. See the next 10 run times, a human-readable description, and build cron schedules with the visual builder. Free, no signup." />
+  <meta name="keywords" content="cron expression parser, cron schedule, cron job, what does cron mean, cron next run time, cron expression builder, crontab, unix cron" />
+  <link rel="canonical" href="https://epochtime.live/cron-expression.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://epochtime.live/cron-expression.html" />
+  <meta property="og:title" content="Cron Expression Parser — Next Run Times & Human Readable Description" />
+  <meta property="og:description" content="Parse cron expressions instantly. See next run times, human-readable description, and build cron schedules." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Cron Expression Parser — EpochTime.live",
+    "url": "https://epochtime.live/cron-expression.html",
+    "description": "Parse cron expressions, see next run times and human-readable descriptions.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZKKD47Q2K"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7880814413550572" crossorigin="anonymous"></script>
+  <script src="analytics.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="cron.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav>
+        <a href="/">Epoch Converter</a>
+        <a href="/cron-expression.html">Cron Parser</a>
+        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+    <!-- Parser -->
+    <div class="tool-card">
+      <div class="tool-card-header">Cron Expression Parser</div>
+      <div class="tool-card-body">
+
+        <div class="cron-field-labels">
+          <span>minute</span><span>hour</span><span>day (month)</span><span>month</span><span>day (week)</span>
+        </div>
+
+        <div class="converter-row">
+          <input type="text" id="cronInput" placeholder="* * * * *" spellcheck="false" autocomplete="off" style="font-family:monospace;font-size:1.05rem;width:260px;" />
+          <button onclick="parseCronUI()">Parse</button>
+        </div>
+
+        <div class="cron-examples">
+          <span class="cron-ex-label">Try:</span>
+          <button class="cron-chip" onclick="setExample('0 9 * * 1-5')">Weekdays 9am</button>
+          <button class="cron-chip" onclick="setExample('*/15 * * * *')">Every 15 min</button>
+          <button class="cron-chip" onclick="setExample('0 0 * * *')">Daily midnight</button>
+          <button class="cron-chip" onclick="setExample('0 0 1 * *')">Monthly</button>
+          <button class="cron-chip" onclick="setExample('0 0 1 1 *')">Yearly</button>
+          <button class="cron-chip" onclick="setExample('0 */6 * * *')">Every 6h</button>
+          <button class="cron-chip" onclick="setExample('30 8 * * 1')">Mon 8:30am</button>
+          <button class="cron-chip" onclick="setExample('@daily')">@daily</button>
+        </div>
+
+        <div class="error-msg" id="cronError" hidden></div>
+
+        <div id="cronResult" hidden>
+          <div class="cron-desc-block">
+            <div class="cron-desc-row">
+              <span class="result-label">Description</span>
+              <span id="cronDescription" class="cron-description"></span>
+            </div>
+            <div class="cron-desc-row">
+              <span class="result-label">Normalised</span>
+              <span id="cronNormalised" style="font-family:monospace;font-weight:bold;color:#1a6fc4"></span>
+              <button class="copy-btn" style="margin-left:8px" onclick="copyCron('cronNormalised')">Copy</button>
+            </div>
+          </div>
+
+          <h3 style="font-size:0.88rem;font-weight:bold;margin:18px 0 8px;text-transform:uppercase;letter-spacing:0.06em;color:#555">Next 10 run times</h3>
+          <table class="result-table" style="font-size:0.85rem">
+            <thead>
+              <tr>
+                <th style="background:#f0f0f0;border:1px solid #ccc;padding:6px 10px;text-align:left">#</th>
+                <th style="background:#f0f0f0;border:1px solid #ccc;padding:6px 10px;text-align:left">Date &amp; Time (local)</th>
+                <th style="background:#f0f0f0;border:1px solid #ccc;padding:6px 10px;text-align:left">Epoch (seconds)</th>
+                <th style="background:#f0f0f0;border:1px solid #ccc;padding:6px 10px;text-align:left">Relative</th>
+              </tr>
+            </thead>
+            <tbody id="cronRunsBody"></tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Visual builder -->
+    <div class="tool-card">
+      <div class="tool-card-header">Cron Expression Builder</div>
+      <div class="tool-card-body">
+        <div class="builder-grid">
+
+          <div class="builder-field">
+            <label>Minute</label>
+            <select id="b-min" onchange="buildFromUI()">
+              <option value="*">Every minute (*)</option>
+              <option value="0">At minute 0</option>
+              <option value="*/5">Every 5 minutes</option>
+              <option value="*/10">Every 10 minutes</option>
+              <option value="*/15">Every 15 minutes</option>
+              <option value="*/30">Every 30 minutes</option>
+              <option value="30">At minute 30</option>
+            </select>
+          </div>
+
+          <div class="builder-field">
+            <label>Hour</label>
+            <select id="b-hr" onchange="buildFromUI()">
+              <option value="*">Every hour (*)</option>
+              <option value="0">Midnight (0)</option>
+              <option value="6">6am</option>
+              <option value="8">8am</option>
+              <option value="9">9am</option>
+              <option value="12">Noon (12)</option>
+              <option value="17">5pm</option>
+              <option value="18">6pm</option>
+              <option value="*/2">Every 2 hours</option>
+              <option value="*/6">Every 6 hours</option>
+              <option value="*/12">Every 12 hours</option>
+            </select>
+          </div>
+
+          <div class="builder-field">
+            <label>Day of month</label>
+            <select id="b-dom" onchange="buildFromUI()">
+              <option value="*">Every day (*)</option>
+              <option value="1">1st</option>
+              <option value="15">15th</option>
+              <option value="L">Last day</option>
+              <option value="1,15">1st and 15th</option>
+            </select>
+          </div>
+
+          <div class="builder-field">
+            <label>Month</label>
+            <select id="b-mon" onchange="buildFromUI()">
+              <option value="*">Every month (*)</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+              <option value="*/3">Every quarter</option>
+              <option value="*/6">Every 6 months</option>
+            </select>
+          </div>
+
+          <div class="builder-field">
+            <label>Day of week</label>
+            <select id="b-dow" onchange="buildFromUI()">
+              <option value="*">Every day (*)</option>
+              <option value="0">Sunday</option>
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+              <option value="1-5">Mon–Fri (weekdays)</option>
+              <option value="0,6">Sat–Sun (weekends)</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+    <!-- Common examples reference -->
+    <div class="info-section">
+      <h2>Common cron expressions</h2>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Expression</th><th>Description</th><th></th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>* * * * *</code></td><td>Every minute</td><td><button class="cron-chip" onclick="setExample('* * * * *')">Try</button></td></tr>
+          <tr><td><code>*/5 * * * *</code></td><td>Every 5 minutes</td><td><button class="cron-chip" onclick="setExample('*/5 * * * *')">Try</button></td></tr>
+          <tr><td><code>*/15 * * * *</code></td><td>Every 15 minutes</td><td><button class="cron-chip" onclick="setExample('*/15 * * * *')">Try</button></td></tr>
+          <tr><td><code>0 * * * *</code></td><td>Every hour (on the hour)</td><td><button class="cron-chip" onclick="setExample('0 * * * *')">Try</button></td></tr>
+          <tr><td><code>0 */6 * * *</code></td><td>Every 6 hours</td><td><button class="cron-chip" onclick="setExample('0 */6 * * *')">Try</button></td></tr>
+          <tr><td><code>0 0 * * *</code></td><td>Every day at midnight</td><td><button class="cron-chip" onclick="setExample('0 0 * * *')">Try</button></td></tr>
+          <tr><td><code>0 9 * * *</code></td><td>Every day at 9am</td><td><button class="cron-chip" onclick="setExample('0 9 * * *')">Try</button></td></tr>
+          <tr><td><code>0 9 * * 1-5</code></td><td>Weekdays at 9am</td><td><button class="cron-chip" onclick="setExample('0 9 * * 1-5')">Try</button></td></tr>
+          <tr><td><code>0 0 * * 0</code></td><td>Every Sunday at midnight</td><td><button class="cron-chip" onclick="setExample('0 0 * * 0')">Try</button></td></tr>
+          <tr><td><code>0 0 1 * *</code></td><td>1st of every month</td><td><button class="cron-chip" onclick="setExample('0 0 1 * *')">Try</button></td></tr>
+          <tr><td><code>0 0 1 1 *</code></td><td>Every January 1st (yearly)</td><td><button class="cron-chip" onclick="setExample('0 0 1 1 *')">Try</button></td></tr>
+          <tr><td><code>0 0 L * *</code></td><td>Last day of every month*</td><td><button class="cron-chip" onclick="setExample('0 0 28-31 * *')">Try approx</button></td></tr>
+          <tr><td><code>@hourly</code></td><td>Shortcut: every hour</td><td><button class="cron-chip" onclick="setExample('@hourly')">Try</button></td></tr>
+          <tr><td><code>@daily</code></td><td>Shortcut: daily at midnight</td><td><button class="cron-chip" onclick="setExample('@daily')">Try</button></td></tr>
+          <tr><td><code>@weekly</code></td><td>Shortcut: weekly on Sunday</td><td><button class="cron-chip" onclick="setExample('@weekly')">Try</button></td></tr>
+          <tr><td><code>@monthly</code></td><td>Shortcut: 1st of every month</td><td><button class="cron-chip" onclick="setExample('@monthly')">Try</button></td></tr>
+          <tr><td><code>@yearly</code></td><td>Shortcut: January 1st annually</td><td><button class="cron-chip" onclick="setExample('@yearly')">Try</button></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px;font-size:0.8rem;color:#888">* L (last day) is a Quartz/Spring extension, not standard POSIX cron.</p>
+    </div>
+
+    <!-- SEO content -->
+    <div class="info-section">
+      <h2>Cron expression format</h2>
+      <p>A standard cron expression has <strong>5 space-separated fields</strong>:</p>
+      <table class="ref-table" style="margin:10px 0">
+        <thead><tr><th>Field</th><th>Range</th><th>Special characters</th></tr></thead>
+        <tbody>
+          <tr><td>Minute</td><td>0–59</td><td rowspan="5"><code>*</code> any &nbsp; <code>,</code> list &nbsp; <code>-</code> range &nbsp; <code>/</code> step</td></tr>
+          <tr><td>Hour</td><td>0–23</td></tr>
+          <tr><td>Day of month</td><td>1–31</td></tr>
+          <tr><td>Month</td><td>1–12 (or JAN–DEC)</td></tr>
+          <tr><td>Day of week</td><td>0–7 (0 and 7 = Sunday, or SUN–SAT)</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Special characters:</strong></p>
+      <ul>
+        <li><code>*</code> — matches any value in that field</li>
+        <li><code>*/n</code> — every <em>n</em> units (e.g. <code>*/5</code> in minutes = every 5 minutes)</li>
+        <li><code>n-m</code> — range from n to m inclusive</li>
+        <li><code>n,m,o</code> — specific list of values</li>
+        <li><code>n-m/s</code> — range with a step (e.g. <code>0-23/2</code> = every 2 hours)</li>
+      </ul>
+      <p style="margin-top:12px"><a href="/what-is-unix-time.html">Learn about Unix timestamps →</a> &nbsp; <a href="/">Epoch time converter →</a></p>
+    </div>
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="footerYear"></span> EpochTime.live — Developer time tools</p>
+      <nav>
+        <a href="/">Epoch Converter</a>
+        <a href="/cron-expression.html">Cron Parser</a>
+        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+  <script src="cron.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+.cron-field-labels {
+  display: flex;
+  gap: 0;
+  margin-bottom: 4px;
+  font-size: 0.72rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+}
+
+.cron-field-labels span {
+  width: 52px;
+  text-align: center;
+}
+
+.cron-field-labels span:first-child { margin-left: 0; }
+
+#cronInput {
+  letter-spacing: 0.05em;
+}
+
+.cron-examples {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.cron-ex-label {
+  font-size: 0.78rem;
+  color: #888;
+  font-weight: bold;
+}
+
+.cron-chip {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 3px 10px;
+  font-size: 0.78rem;
+  color: #333;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cron-chip:hover { background: #e0ecff; border-color: #1a6fc4; color: #1a6fc4; }
+
+.cron-desc-block {
+  margin-top: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fafafa;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cron-desc-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cron-description {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #267326;
+}
+
+/* Builder */
+.builder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.builder-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.builder-field label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #666;
+}
+
+.builder-field select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: #222;
+  background: #fff;
+  cursor: pointer;
+}
+
+.builder-field select:focus {
+  border-color: #1a6fc4;
+  outline: none;
+}
+
+/* Result table tweaks for cron */
+#cronRunsBody tr:nth-child(even) td { background: #fafafa; }
+#cronRunsBody td { padding: 6px 10px; border: 1px solid #e0e0e0; font-variant-numeric: tabular-nums; }
+#cronRunsBody td:first-child { color: #aaa; width: 30px; text-align: center; }
+#cronRunsBody td:nth-child(3) { font-family: 'Courier New', monospace; color: #1a6fc4; }
+#cronRunsBody td:last-child { color: #267326; font-weight: bold; }
+
+@media (max-width: 600px) {
+  .cron-field-labels { display: none; }
+  .builder-grid { grid-template-columns: 1fr 1fr; }
+}
