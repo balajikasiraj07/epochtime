@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Difference Calculator — Days Between Two Dates | EpochTime.live</title>
+  <meta name="description" content="Calculate the number of days, weeks, months, and years between two dates. Also calculates business days, age from birthdate, and days until any date." />
+  <meta name="keywords" content="date difference calculator, days between two dates, how many days between dates, date calculator, days until, age calculator, business days calculator, days since" />
+  <link rel="canonical" href="https://epochtime.live/date-difference.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://epochtime.live/date-difference.html" />
+  <meta property="og:title" content="Date Difference Calculator — Days Between Two Dates" />
+  <meta property="og:description" content="Calculate days, weeks, months, years between any two dates. Business days, age calculator included." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Date Difference Calculator — EpochTime.live",
+    "url": "https://epochtime.live/date-difference.html",
+    "description": "Calculate the difference between two dates in days, weeks, months, years, and business days.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate the number of days between two dates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Enter the two dates in the calculator above. It instantly shows the total days, weeks, months, years, and business days between them."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many business days are between two dates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The date difference calculator counts working days (Monday to Friday) between two dates, excluding weekends."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZKKD47Q2K"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7880814413550572" crossorigin="anonymous"></script>
+  <script src="analytics.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="datediff.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav>
+        <a href="/">Epoch Converter</a>
+        <a href="/timezone-converter.html">Timezone</a>
+        <a href="/cron-expression.html">Cron Parser</a>
+        <a href="/date-difference.html">Date Diff</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+    <!-- Main calculator -->
+    <div class="tool-card">
+      <div class="tool-card-header">Date Difference Calculator</div>
+      <div class="tool-card-body">
+
+        <div class="dd-input-grid">
+          <div class="dd-field">
+            <label class="dd-label" for="date1">Start Date</label>
+            <input type="date" id="date1" class="dd-date" />
+            <button class="dd-today-btn" onclick="setToday('date1')">Today</button>
+          </div>
+
+          <div class="dd-arrow">→</div>
+
+          <div class="dd-field">
+            <label class="dd-label" for="date2">End Date</label>
+            <input type="date" id="date2" class="dd-date" />
+            <button class="dd-today-btn" onclick="setToday('date2')">Today</button>
+          </div>
+
+          <div class="dd-field dd-calc-btn">
+            <label class="dd-label">&nbsp;</label>
+            <button onclick="calculate()">Calculate</button>
+          </div>
+        </div>
+
+        <!-- Quick presets -->
+        <div class="dd-presets">
+          <span class="dd-preset-label">Quick:</span>
+          <button class="cron-chip" onclick="setPreset(todayStr(), endOfYear())">Days left in year</button>
+          <button class="cron-chip" onclick="setPreset(startOfYear(), todayStr())">Days since Jan 1</button>
+          <button class="cron-chip" onclick="setPreset(nDaysAgo(30), todayStr())">Last 30 days</button>
+          <button class="cron-chip" onclick="setPreset(nDaysAgo(90), todayStr())">Last 90 days</button>
+          <button class="cron-chip" onclick="setPreset(nDaysAgo(365), todayStr())">Last year</button>
+          <button class="cron-chip" onclick="setPreset(todayStr(), nDaysFromNow(100))">Next 100 days</button>
+        </div>
+
+        <div class="error-msg" id="diffError" hidden></div>
+
+        <!-- Result -->
+        <div id="diffResult" hidden>
+          <div class="dd-big-result">
+            <div class="dd-big-number" id="bigNumber"></div>
+            <div class="dd-big-label" id="bigLabel">days</div>
+          </div>
+
+          <p class="dd-sentence" id="dirSentence"></p>
+          <p class="dd-breakdown-line">That is <strong id="breakdown"></strong> · or <strong id="weekBreakdown"></strong></p>
+
+          <table class="result-table dd-table">
+            <thead>
+              <tr><th>Unit</th><th>Value</th></tr>
+            </thead>
+            <tbody id="diffTableBody"></tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+    <!-- Age calculator -->
+    <div class="tool-card">
+      <div class="tool-card-header">Age Calculator</div>
+      <div class="tool-card-body">
+        <div class="dd-input-grid">
+          <div class="dd-field">
+            <label class="dd-label" for="dob">Date of Birth</label>
+            <input type="date" id="dob" class="dd-date" />
+          </div>
+          <div class="dd-field dd-calc-btn">
+            <label class="dd-label">&nbsp;</label>
+            <button onclick="calculateAge()">Calculate Age</button>
+          </div>
+        </div>
+
+        <div class="error-msg" id="ageError" hidden></div>
+
+        <div id="ageResult" hidden>
+          <div class="dd-big-result">
+            <div class="dd-big-number" id="ageYears"></div>
+            <div class="dd-big-label">years old</div>
+          </div>
+          <p class="dd-sentence" id="ageDetail" style="text-align:center;margin-top:0"></p>
+          <table class="result-table dd-table" style="margin-top:16px">
+            <tbody>
+              <tr><td>Total days lived</td><td class="diff-val" id="ageDays"></td></tr>
+              <tr><td>Total hours lived</td><td class="diff-val" id="ageHours"></td></tr>
+              <tr><td>Next birthday</td><td class="diff-val" id="nextBirthday"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO content -->
+    <div class="info-section">
+      <h2>How to calculate days between two dates</h2>
+      <p>
+        Simply pick a <strong>start date</strong> and <strong>end date</strong> above. The calculator instantly
+        shows the exact difference in days, weeks, months, years, hours, minutes, seconds, and business days.
+        Use the <em>Today</em> button to anchor either date to the current day.
+      </p>
+
+      <h2>Business days vs calendar days</h2>
+      <p>
+        <strong>Calendar days</strong> count every day including weekends and holidays.
+        <strong>Business days</strong> (also called working days) count only Monday–Friday,
+        excluding Saturdays and Sundays. The calculator shows both so you can use whichever
+        is relevant — calendar days for general use, business days for project timelines,
+        contracts, and SLA calculations.
+      </p>
+
+      <h2>Common date difference questions</h2>
+      <table class="ref-table">
+        <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+        <tbody>
+          <tr><td>How many days in a year?</td><td>365 days (366 in a leap year)</td></tr>
+          <tr><td>How many days in a month?</td><td>28–31 depending on the month</td></tr>
+          <tr><td>How many weeks in a year?</td><td>52 weeks and 1 day</td></tr>
+          <tr><td>How many business days in a month?</td><td>Typically 20–23 working days</td></tr>
+          <tr><td>How many business days in a year?</td><td>Approximately 260 working days</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:14px">
+        <a href="/">← Epoch time converter</a> &nbsp;·&nbsp;
+        <a href="/timezone-converter.html">Timezone converter</a> &nbsp;·&nbsp;
+        <a href="/cron-expression.html">Cron expression parser</a>
+      </p>
+    </div>
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="footerYear"></span> EpochTime.live — Developer time tools</p>
+      <nav>
+        <a href="/">Epoch Converter</a>
+        <a href="/timezone-converter.html">Timezone</a>
+        <a href="/cron-expression.html">Cron Parser</a>
+        <a href="/date-difference.html">Date Diff</a>
+        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+    function endOfYear()     { const d=new Date(); return `${d.getFullYear()}-12-31`; }
+    function startOfYear()   { const d=new Date(); return `${d.getFullYear()}-01-01`; }
+    function nDaysAgo(n)     { const d=new Date(); d.setDate(d.getDate()-n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+    function nDaysFromNow(n) { const d=new Date(); d.setDate(d.getDate()+n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  </script>
+  <script src="datediff.js"></script>
+</body>
+</html>
