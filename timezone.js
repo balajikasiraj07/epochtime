@@ -25,18 +25,17 @@ const POPULAR_TZS = [
 function pad(n) { return String(n).padStart(2, '0'); }
 
 function getOffset(tz, date) {
-  const d = date || new Date();
-  const utcStr = d.toLocaleString('en-US', { timeZone: 'UTC', hour12: false,
-    year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit' });
-  const tzStr  = d.toLocaleString('en-US', { timeZone: tz,  hour12: false,
-    year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit' });
-  const utcDate = new Date(utcStr.replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2T$4:$5:$6'));
-  const tzDate  = new Date(tzStr.replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2T$4:$5:$6'));
-  const diffMs  = tzDate - utcDate;
-  const diffH   = Math.floor(Math.abs(diffMs) / 3600000);
-  const diffM   = Math.round((Math.abs(diffMs) % 3600000) / 60000);
-  const sign    = diffMs >= 0 ? '+' : '-';
-  return `UTC${sign}${pad(diffH)}:${pad(diffM)}`;
+  try {
+    const d = date || new Date();
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz, timeZoneName: 'longOffset'
+    }).formatToParts(d);
+    const raw = parts.find(p => p.type === 'timeZoneName')?.value || '';
+    // "GMT+5:30" → "UTC+05:30"
+    return raw.replace('GMT', 'UTC')
+              .replace(/([+-])(\d):/, '$10$2:')   // pad single-digit hour
+              .replace(/([+-]\d{2})$/, '$1:00');   // add :00 if no minutes
+  } catch { return ''; }
 }
 
 function formatInTZ(date, tz) {
@@ -68,16 +67,18 @@ function renderWorldClock() {
 
   tbody.innerHTML = '';
   POPULAR_TZS.forEach(({ tz, city }) => {
-    const timeStr = formatInTZ(now, tz);
-    const abbr = getAbbr(tz, now);
-    const offset = getOffset(tz, now);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${city}</td>
-      <td class="wc-time">${timeStr}</td>
-      <td class="wc-abbr">${abbr}</td>
-      <td class="wc-offset">${offset}</td>`;
-    tbody.appendChild(tr);
+    try {
+      const timeStr = formatInTZ(now, tz);
+      const abbr    = getAbbr(tz, now);
+      const offset  = getOffset(tz, now);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${city}</td>
+        <td class="wc-time">${timeStr}</td>
+        <td class="wc-abbr">${abbr}</td>
+        <td class="wc-offset">${offset}</td>`;
+      tbody.appendChild(tr);
+    } catch (e) { console.warn('Clock error for', tz, e); }
   });
 }
 
@@ -141,7 +142,7 @@ function convertTZ() {
 
   POPULAR_TZS.forEach(({ tz, city, label }) => {
     const timeStr = formatInTZ(date, tz);
-    const abbr = getAbbr(date, tz);
+    const abbr = getAbbr(tz, date);
     const offset = getOffset(tz, date);
     const tr = document.createElement('tr');
     const isFrom = tz === fromTZ;
