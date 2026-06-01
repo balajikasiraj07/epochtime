@@ -80,6 +80,13 @@ main.container {
   letter-spacing: 0.05em;
 }
 
+/* Don't show empty ad slots before AdSense fills them */
+.ad-slot:empty,
+.ad-slot ins:not([data-ad-status]),
+.adsbygoogle:not([data-ad-status]) {
+  display: none !important;
+}
+
 /* ===== Top section: epoch + clock side by side ===== */
 .top-section {
   display: flex;
