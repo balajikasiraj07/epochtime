@@ -1,11 +1,94 @@
-.wc-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+/* ── Input grid ── */
+.tz-input-grid {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.tz-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tz-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #666;
+}
+
+.tz-datetime {
+  width: 210px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #222;
+}
+
+.tz-select-input {
+  width: 230px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: #222;
+  background: #fff;
+  cursor: pointer;
+  height: 34px;
+}
+
+.tz-btn-field { justify-content: flex-end; }
+
+.tz-btns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ── Summary block ── */
+.tz-summary {
+  margin-top: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fafafa;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tz-summary-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tz-val-blue  { font-weight: bold; color: #1a6fc4; font-variant-numeric: tabular-nums; }
+.tz-val-green { font-weight: bold; color: #267326; }
+.mono         { font-family: 'Courier New', monospace; }
+
+/* ── World clock table ── */
+.wc-body { padding: 0; }
+
+.wc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
 
 .wc-table th {
   background: #f0f0f0;
   border: 1px solid #ccc;
   padding: 7px 12px;
   text-align: left;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #666;
@@ -20,26 +103,12 @@
 .wc-table tr:nth-child(even) td { background: #fafafa; }
 .wc-table tr:hover td { background: #f0f5ff; }
 
-.wc-time {
-  font-family: 'Courier New', monospace;
-  font-weight: bold;
-  color: #267326;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
+.wc-city   { font-weight: 500; }
+.wc-time   { font-family: 'Courier New', monospace; font-weight: bold; color: #267326; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wc-abbr   { color: #1a6fc4; font-weight: bold; font-size: 0.82rem; }
+.wc-offset { color: #888; font-size: 0.82rem; font-family: monospace; white-space: nowrap; }
 
-.wc-abbr {
-  color: #1a6fc4;
-  font-weight: bold;
-  font-size: 0.82rem;
-}
-
-.wc-offset {
-  color: #888;
-  font-size: 0.82rem;
-  font-family: monospace;
-}
-
+/* Source row highlight */
 .tz-source-row td { background: #f0f5ff !important; }
 
 .tz-src-badge {
@@ -51,10 +120,21 @@
   margin-left: 4px;
   vertical-align: middle;
   font-weight: bold;
+}
+
+/* Live badge */
+.wc-live-badge {
+  float: right;
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: #267326;
   letter-spacing: 0.03em;
 }
 
-@media (max-width: 600px) {
-  .wc-table th:nth-child(3),
-  .wc-table td:nth-child(3) { display: none; }
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .tz-input-grid { flex-direction: column; align-items: stretch; }
+  .tz-datetime, .tz-select-input { width: 100%; }
+  .wc-table th:nth-child(4),
+  .wc-table td:nth-child(4) { display: none; }
 }

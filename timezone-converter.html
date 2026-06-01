@@ -7,25 +7,13 @@
   <meta name="description" content="Convert time between any timezones instantly. PST to IST, EST to UTC, GMT to JST and more. Live world clock showing current time in 20 major cities." />
   <meta name="keywords" content="timezone converter, PST to IST, EST to UTC, convert timezone, world clock, time zone converter, GMT to JST, IST to EST, current time zones" />
   <link rel="canonical" href="https://epochtime.live/timezone-converter.html" />
-
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://epochtime.live/timezone-converter.html" />
   <meta property="og:title" content="Timezone Converter — World Clock | EpochTime.live" />
   <meta property="og:description" content="Convert time between any timezones. Live world clock for 20 major cities." />
-
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Timezone Converter — EpochTime.live",
-    "url": "https://epochtime.live/timezone-converter.html",
-    "description": "Convert time between any timezones. Live world clock.",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Any",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-  }
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Timezone Converter — EpochTime.live","url":"https://epochtime.live/timezone-converter.html","description":"Convert time between timezones. Live world clock.","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9ZKKD47Q2K"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7880814413550572" crossorigin="anonymous"></script>
   <script src="analytics.js"></script>
@@ -40,9 +28,9 @@
       <a href="/" class="logo">EpochTime.live</a>
       <nav>
         <a href="/">Epoch Converter</a>
-        <a href="/timezone-converter.html">Timezone Converter</a>
+        <a href="/timezone-converter.html">Timezone</a>
         <a href="/cron-expression.html">Cron Parser</a>
-        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+        <a href="/what-is-unix-time.html">Guide</a>
       </nav>
     </div>
   </header>
@@ -55,50 +43,49 @@
     <div class="tool-card">
       <div class="tool-card-header">Timezone Converter</div>
       <div class="tool-card-body">
-        <div class="converter-row" style="flex-wrap:wrap;gap:10px">
-          <div style="display:flex;flex-direction:column;gap:3px">
-            <label style="font-size:0.75rem;font-weight:bold;color:#666;text-transform:uppercase;letter-spacing:0.05em">Date &amp; Time</label>
-            <input type="datetime-local" id="convertDate" style="width:220px" />
+
+        <div class="tz-input-grid">
+          <div class="tz-field">
+            <label class="tz-label" for="convertDate">Date &amp; Time</label>
+            <input type="datetime-local" id="convertDate" class="tz-datetime" />
           </div>
-          <div style="display:flex;flex-direction:column;gap:3px">
-            <label style="font-size:0.75rem;font-weight:bold;color:#666;text-transform:uppercase;letter-spacing:0.05em">From timezone</label>
-            <select id="fromTZ" style="width:240px;padding:6px 8px;border:1px solid #ccc;border-radius:4px;font-size:0.88rem"></select>
+          <div class="tz-field">
+            <label class="tz-label" for="fromTZ">From Timezone</label>
+            <select id="fromTZ" class="tz-select-input"></select>
           </div>
-          <div style="display:flex;align-items:flex-end;gap:8px">
-            <button onclick="convertTZ()">Convert</button>
-            <button class="btn-secondary" onclick="useNowTZ()">Now</button>
+          <div class="tz-field tz-btn-field">
+            <label class="tz-label">&nbsp;</label>
+            <div class="tz-btns">
+              <button onclick="convertTZ()">Convert</button>
+              <button class="btn-secondary" onclick="useNowTZ()">Now</button>
+            </div>
           </div>
         </div>
-        <datalist id="tzDatalist"></datalist>
 
         <div class="error-msg" id="tzError" hidden></div>
 
         <div id="tzResult" hidden>
-          <div class="cron-desc-block" style="margin-top:14px">
-            <div class="cron-desc-row">
+          <div class="tz-summary">
+            <div class="tz-summary-row">
               <span class="result-label">Epoch (seconds)</span>
-              <span id="tzEpoch" style="font-weight:bold;color:#1a6fc4;font-variant-numeric:tabular-nums"></span>
-              <button class="copy-btn" style="margin-left:6px" onclick="copyTZText('tzEpoch')">Copy</button>
+              <span id="tzEpoch" class="tz-val-blue"></span>
+              <button class="copy-btn" onclick="copyTZText('tzEpoch')">Copy</button>
             </div>
-            <div class="cron-desc-row">
-              <span class="result-label">ISO 8601</span>
-              <span id="tzISO" style="font-weight:bold;color:#267326;font-family:monospace"></span>
-              <button class="copy-btn" style="margin-left:6px" onclick="copyTZText('tzISO')">Copy</button>
+            <div class="tz-summary-row">
+              <span class="result-label">ISO 8601 (UTC)</span>
+              <span id="tzISO" class="tz-val-green mono"></span>
+              <button class="copy-btn" onclick="copyTZText('tzISO')">Copy</button>
             </div>
           </div>
 
-          <table class="result-table wc-table" style="margin-top:14px">
+          <table class="wc-table" style="margin-top:14px">
             <thead>
-              <tr>
-                <th>City / Region</th>
-                <th>Date &amp; Time</th>
-                <th>Abbr</th>
-                <th>Offset</th>
-              </tr>
+              <tr><th>City / Region</th><th>Date &amp; Time</th><th>Abbr</th><th>Offset</th></tr>
             </thead>
             <tbody id="tzResultBody"></tbody>
           </table>
         </div>
+
       </div>
     </div>
 
@@ -108,17 +95,12 @@
     <div class="tool-card">
       <div class="tool-card-header">
         Live World Clock
-        <span style="float:right;font-weight:normal;font-size:0.8rem;color:#888">Updates every second</span>
+        <span class="wc-live-badge">● live</span>
       </div>
-      <div class="tool-card-body" style="padding:0">
-        <table class="result-table wc-table">
+      <div class="tool-card-body wc-body">
+        <table class="wc-table">
           <thead>
-            <tr>
-              <th>City / Region</th>
-              <th>Date &amp; Time</th>
-              <th>Abbr</th>
-              <th>Offset</th>
-            </tr>
+            <tr><th>City / Region</th><th>Date &amp; Time</th><th>Abbr</th><th>Offset</th></tr>
           </thead>
           <tbody id="worldClockBody"></tbody>
         </table>
@@ -140,29 +122,24 @@
           <tr><td>Brazil Time</td><td>BRT</td><td>UTC−03:00</td><td>São Paulo, Rio</td></tr>
           <tr><td>Greenwich Mean Time</td><td>GMT</td><td>UTC±00:00</td><td>London (winter)</td></tr>
           <tr><td>Central European Time</td><td>CET</td><td>UTC+01:00</td><td>Paris, Berlin, Rome</td></tr>
-          <tr><td>Eastern European Time</td><td>EET</td><td>UTC+02:00</td><td>Helsinki, Athens</td></tr>
           <tr><td>Moscow Time</td><td>MSK</td><td>UTC+03:00</td><td>Moscow</td></tr>
           <tr><td>Gulf Standard Time</td><td>GST</td><td>UTC+04:00</td><td>Dubai, Abu Dhabi</td></tr>
           <tr><td>India Standard Time</td><td>IST</td><td>UTC+05:30</td><td>Mumbai, Delhi, Bangalore</td></tr>
-          <tr><td>Bangladesh Standard Time</td><td>BST</td><td>UTC+06:00</td><td>Dhaka</td></tr>
-          <tr><td>Indochina Time</td><td>ICT</td><td>UTC+07:00</td><td>Bangkok, Ho Chi Minh</td></tr>
-          <tr><td>Singapore / China Time</td><td>SGT/CST</td><td>UTC+08:00</td><td>Singapore, Shanghai, Hong Kong</td></tr>
+          <tr><td>Singapore / China Time</td><td>SGT/CST</td><td>UTC+08:00</td><td>Singapore, Shanghai</td></tr>
           <tr><td>Japan Standard Time</td><td>JST</td><td>UTC+09:00</td><td>Tokyo, Osaka</td></tr>
           <tr><td>Australian Eastern Time</td><td>AEST</td><td>UTC+10:00</td><td>Sydney, Melbourne</td></tr>
           <tr><td>New Zealand Standard Time</td><td>NZST</td><td>UTC+12:00</td><td>Auckland</td></tr>
         </tbody>
       </table>
 
-      <h2 style="margin-top:20px">Daylight saving time (DST)</h2>
-      <p>Many timezones observe DST and shift by 1 hour during summer. Key examples:</p>
+      <h2 style="margin-top:20px">Daylight Saving Time (DST)</h2>
+      <p>Timezones that observe DST shift by 1 hour in summer:</p>
       <ul>
-        <li><strong>PST → PDT</strong> (UTC−7): second Sunday in March to first Sunday in November</li>
+        <li><strong>PST → PDT</strong> (UTC−7): 2nd Sunday March → 1st Sunday November</li>
         <li><strong>EST → EDT</strong> (UTC−4): same schedule as PST/PDT</li>
-        <li><strong>GMT → BST</strong> (UTC+1): last Sunday in March to last Sunday in October</li>
-        <li><strong>CET → CEST</strong> (UTC+2): same as GMT/BST</li>
-        <li><strong>IST, JST, CST</strong>: no DST — offset is fixed year-round</li>
+        <li><strong>GMT → BST</strong> (UTC+1): last Sunday March → last Sunday October</li>
+        <li><strong>IST, JST, CST</strong>: no DST — fixed year-round</li>
       </ul>
-
       <p style="margin-top:14px">
         <a href="/">← Epoch time converter</a> &nbsp;·&nbsp;
         <a href="/cron-expression.html">Cron expression parser</a>
@@ -178,7 +155,7 @@
       <p>© <span id="footerYear"></span> EpochTime.live — Developer time tools</p>
       <nav>
         <a href="/">Epoch Converter</a>
-        <a href="/timezone-converter.html">Timezone Converter</a>
+        <a href="/timezone-converter.html">Timezone</a>
         <a href="/cron-expression.html">Cron Parser</a>
         <a href="/what-is-unix-time.html">Unix Time Guide</a>
         <a href="/privacy.html">Privacy</a>
@@ -188,5 +165,6 @@
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
   <script src="timezone.js"></script>
+  <script>populateSelects(); startWorldClock(); initTimezoneListeners();</script>
 </body>
 </html>
