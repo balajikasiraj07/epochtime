@@ -40,8 +40,18 @@
   font-family: monospace;
 }
 
-.tz-source {
-  color: #1a6fc4 !important;
+.tz-source-row td { background: #f0f5ff !important; }
+
+.tz-src-badge {
+  background: #1a6fc4;
+  color: #fff;
+  font-size: 0.68rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 4px;
+  vertical-align: middle;
+  font-weight: bold;
+  letter-spacing: 0.03em;
 }
 
 @media (max-width: 600px) {
