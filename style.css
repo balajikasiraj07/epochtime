@@ -457,6 +457,43 @@ button:hover { background: var(--accent-hover); }
 
 .ref-table tr:nth-child(even) td { background: #fafafa; }
 
+/* Tools promo grid */
+.tools-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.tool-promo-card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  text-decoration: none;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.tool-promo-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(26,111,196,0.1);
+  text-decoration: none;
+}
+
+.tool-promo-title {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+
+.tool-promo-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
 /* Language grid */
 .lang-grid {
   display: flex;
