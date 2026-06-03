@@ -1,0 +1,242 @@
+/* ── Top layout ── */
+.color-top {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.color-preview {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background 0.15s;
+}
+
+.color-input-area {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.color-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.color-picker-native {
+  width: 44px;
+  height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px;
+  cursor: pointer;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.color-text-input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.92rem;
+  font-family: 'Courier New', monospace;
+  color: #222;
+}
+
+.color-text-input:focus { border-color: #1a6fc4; outline: none; box-shadow: 0 0 0 2px rgba(26,111,196,0.12); }
+
+.color-hint {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.color-examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+/* ── Output rows ── */
+.color-outputs {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.color-out-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-out-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.color-out-value {
+  flex: 1;
+  font-size: 0.92rem;
+  font-weight: bold;
+  color: #267326;
+}
+
+/* ── RGB channels ── */
+.color-channels {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.channel-box {
+  flex: 1;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+.channel-label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.channel-val {
+  font-size: 1.2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+.channel-r { background: #fff0f0; border-color: #ffcccc; color: #c0392b; }
+.channel-g { background: #f0fff0; border-color: #ccffcc; color: #27ae60; }
+.channel-b { background: #f0f4ff; border-color: #ccd6ff; color: #2980b9; }
+.channel-a { background: #f8f8f8; border-color: #e0e0e0; color: #555; }
+
+/* ── Tints & Shades ── */
+.swatch-section {}
+.swatch-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.swatch-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.1s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.swatch:hover { transform: scale(1.1); border-color: #888; }
+
+/* ── Contrast checker ── */
+.contrast-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.contrast-card {
+  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.contrast-card.contrast-dark {
+  background: #1a1a1a;
+  border-color: #444;
+}
+
+.contrast-bg-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.contrast-dark .contrast-bg-label { color: #aaa; }
+
+.contrast-ratio {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a6fc4;
+  font-variant-numeric: tabular-nums;
+}
+
+.contrast-dark .contrast-ratio { color: #7eb8f7; }
+
+.contrast-rating {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-top: 4px;
+  color: #267326;
+}
+
+.contrast-dark .contrast-rating { color: #5fc87a; }
+
+/* ── Named colors ── */
+.named-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.named-colors span {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.1s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.named-colors span:hover { transform: scale(1.15); }
+
+/* ── Responsive ── */
+@media (max-width: 560px) {
+  .color-preview { width: 80px; height: 80px; }
+  .contrast-grid { grid-template-columns: 1fr; }
+  .color-channels { gap: 6px; }
+  .channel-val { font-size: 1rem; }
+}

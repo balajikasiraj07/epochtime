@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Converter — HEX to RGB, HSL, HSV, CMYK | EpochTime.live</title>
+  <meta name="description" content="Convert colors instantly between HEX, RGB, RGBA, HSL, HSLA, HSV, and CMYK. Color picker, tints & shades, WCAG contrast ratio checker. Free online color converter." />
+  <meta name="keywords" content="color converter, hex to rgb, rgb to hex, hex to hsl, rgb to hsl, color picker, cmyk converter, rgba converter, hsl to hex, css color converter, color code converter" />
+  <link rel="canonical" href="https://epochtime.live/color-converter.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://epochtime.live/color-converter.html" />
+  <meta property="og:title" content="Color Converter — HEX to RGB, HSL, CMYK" />
+  <meta property="og:description" content="Convert any color between HEX, RGB, HSL, HSV, CMYK instantly. Tints, shades, and WCAG contrast checker included." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Color Converter — EpochTime.live",
+    "url": "https://epochtime.live/color-converter.html",
+    "description": "Convert colors between HEX, RGB, HSL, HSV, and CMYK. Includes tints, shades, and WCAG contrast checker.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert HEX to RGB?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Enter your HEX color code (e.g. #4F8EF7) in the input above. The converter instantly shows the equivalent RGB, HSL, HSV, and CMYK values." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between RGB and HSL?",
+        "acceptedAnswer": { "@type": "Answer", "text": "RGB defines colors using Red, Green, and Blue channels (0-255 each). HSL defines colors using Hue (0-360°), Saturation (0-100%), and Lightness (0-100%), which is more intuitive for humans." }
+      }
+    ]
+  }
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7880814413550572" crossorigin="anonymous"></script>
+  <script src="analytics.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="color.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav>
+        <a href="/">Epoch</a>
+        <a href="/timezone-converter.html">Timezone</a>
+        <a href="/cron-expression.html">Cron</a>
+        <a href="/date-difference.html">Date Diff</a>
+        <a href="/color-converter.html">Color</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+    <!-- Input + Preview -->
+    <div class="tool-card">
+      <div class="tool-card-header">Color Converter</div>
+      <div class="tool-card-body">
+
+        <div class="color-top">
+          <!-- Preview box -->
+          <div id="colorPreview" class="color-preview"></div>
+
+          <!-- Input area -->
+          <div class="color-input-area">
+            <label class="dd-label" for="colorInput">Enter any color format</label>
+            <div class="color-input-row">
+              <input type="color" id="colorPicker" class="color-picker-native" title="Pick a color" />
+              <input type="text" id="colorInput" class="color-text-input" placeholder="#4F8EF7, rgb(79,142,247), hsl(220,91%,64%)" spellcheck="false" autocomplete="off" />
+            </div>
+            <div class="color-hint">Accepts: HEX, RGB, RGBA, HSL, HSLA, HSV, CMYK, CSS names</div>
+            <div class="error-msg" id="inputError" hidden>Unrecognised color format.</div>
+
+            <!-- Quick examples -->
+            <div class="color-examples">
+              <span class="dd-preset-label">Try:</span>
+              <button class="cron-chip" onclick="document.getElementById('colorInput').value='#FF5733';onInputChange()">#FF5733</button>
+              <button class="cron-chip" onclick="document.getElementById('colorInput').value='rgb(100,200,100)';onInputChange()">rgb(100,200,100)</button>
+              <button class="cron-chip" onclick="document.getElementById('colorInput').value='hsl(220,90%,60%)';onInputChange()">hsl(220,90%,60%)</button>
+              <button class="cron-chip" onclick="document.getElementById('colorInput').value='coral';onInputChange()">coral</button>
+              <button class="cron-chip" onclick="document.getElementById('colorInput').value='rgba(0,0,0,0.5)';onInputChange()">rgba(0,0,0,0.5)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conversion outputs -->
+        <div class="color-outputs">
+          <div class="color-out-row">
+            <span class="color-out-label">HEX</span>
+            <span class="color-out-value mono" id="out-hex"></span>
+            <button class="copy-btn" onclick="copyOutput('out-hex')">Copy</button>
+          </div>
+          <div class="color-out-row">
+            <span class="color-out-label">RGB / RGBA</span>
+            <span class="color-out-value mono" id="out-rgb"></span>
+            <button class="copy-btn" onclick="copyOutput('out-rgb')">Copy</button>
+          </div>
+          <div class="color-out-row">
+            <span class="color-out-label">HSL / HSLA</span>
+            <span class="color-out-value mono" id="out-hsl"></span>
+            <button class="copy-btn" onclick="copyOutput('out-hsl')">Copy</button>
+          </div>
+          <div class="color-out-row">
+            <span class="color-out-label">HSV</span>
+            <span class="color-out-value mono" id="out-hsv"></span>
+            <button class="copy-btn" onclick="copyOutput('out-hsv')">Copy</button>
+          </div>
+          <div class="color-out-row">
+            <span class="color-out-label">CMYK</span>
+            <span class="color-out-value mono" id="out-cmyk"></span>
+            <button class="copy-btn" onclick="copyOutput('out-cmyk')">Copy</button>
+          </div>
+        </div>
+
+        <!-- RGB channels -->
+        <div class="color-channels">
+          <div class="channel-box channel-r"><div class="channel-label">R</div><div class="channel-val" id="out-r"></div></div>
+          <div class="channel-box channel-g"><div class="channel-label">G</div><div class="channel-val" id="out-g"></div></div>
+          <div class="channel-box channel-b"><div class="channel-label">B</div><div class="channel-val" id="out-b"></div></div>
+          <div class="channel-box channel-a"><div class="channel-label">A</div><div class="channel-val" id="out-a"></div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+    <!-- Tints & Shades -->
+    <div class="tool-card">
+      <div class="tool-card-header">Tints &amp; Shades</div>
+      <div class="tool-card-body">
+        <div class="swatch-section">
+          <div class="swatch-label">Tints (lighter)</div>
+          <div class="swatch-row" id="tintsRow"></div>
+        </div>
+        <div class="swatch-section" style="margin-top:14px">
+          <div class="swatch-label">Shades (darker)</div>
+          <div class="swatch-row" id="shadesRow"></div>
+        </div>
+        <p class="color-hint" style="margin-top:10px">Click any swatch to use it as input</p>
+      </div>
+    </div>
+
+    <!-- Contrast Checker -->
+    <div class="tool-card">
+      <div class="tool-card-header">WCAG Contrast Checker</div>
+      <div class="tool-card-body">
+        <p class="tool-desc">Contrast ratio against white and black backgrounds. AA requires ≥ 4.5:1 for normal text, AAA requires ≥ 7:1.</p>
+        <div class="contrast-grid">
+          <div class="contrast-card" id="contrastWhiteCard">
+            <div class="contrast-bg-label">On White</div>
+            <div class="contrast-ratio" id="contrast-white"></div>
+            <div class="contrast-rating" id="contrast-white-rating"></div>
+          </div>
+          <div class="contrast-card contrast-dark" id="contrastBlackCard">
+            <div class="contrast-bg-label">On Black</div>
+            <div class="contrast-ratio" id="contrast-black"></div>
+            <div class="contrast-rating" id="contrast-black-rating"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO content -->
+    <div class="info-section">
+      <h2>Color format reference</h2>
+      <table class="ref-table">
+        <thead><tr><th>Format</th><th>Example</th><th>Used in</th></tr></thead>
+        <tbody>
+          <tr><td>HEX</td><td><code>#4F8EF7</code></td><td>CSS, HTML, design tools</td></tr>
+          <tr><td>RGB</td><td><code>rgb(79, 142, 247)</code></td><td>CSS, canvas, image processing</td></tr>
+          <tr><td>RGBA</td><td><code>rgba(79, 142, 247, 0.8)</code></td><td>CSS with transparency</td></tr>
+          <tr><td>HSL</td><td><code>hsl(220, 91%, 64%)</code></td><td>CSS, intuitive for humans</td></tr>
+          <tr><td>HSLA</td><td><code>hsla(220, 91%, 64%, 0.8)</code></td><td>CSS with transparency</td></tr>
+          <tr><td>HSV / HSB</td><td><code>hsv(220, 68%, 97%)</code></td><td>Photoshop, design apps</td></tr>
+          <tr><td>CMYK</td><td><code>cmyk(68%, 43%, 0%, 3%)</code></td><td>Print / physical media</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top:18px">Common CSS named colors</h2>
+      <div class="named-colors">
+        <span onclick="document.getElementById('colorInput').value='red';onInputChange()" style="background:red"></span>
+        <span onclick="document.getElementById('colorInput').value='orange';onInputChange()" style="background:orange"></span>
+        <span onclick="document.getElementById('colorInput').value='gold';onInputChange()" style="background:gold"></span>
+        <span onclick="document.getElementById('colorInput').value='lime';onInputChange()" style="background:lime"></span>
+        <span onclick="document.getElementById('colorInput').value='teal';onInputChange()" style="background:teal"></span>
+        <span onclick="document.getElementById('colorInput').value='dodgerblue';onInputChange()" style="background:dodgerblue"></span>
+        <span onclick="document.getElementById('colorInput').value='mediumpurple';onInputChange()" style="background:mediumpurple"></span>
+        <span onclick="document.getElementById('colorInput').value='hotpink';onInputChange()" style="background:hotpink"></span>
+        <span onclick="document.getElementById('colorInput').value='coral';onInputChange()" style="background:coral"></span>
+        <span onclick="document.getElementById('colorInput').value='tomato';onInputChange()" style="background:tomato"></span>
+        <span onclick="document.getElementById('colorInput').value='steelblue';onInputChange()" style="background:steelblue"></span>
+        <span onclick="document.getElementById('colorInput').value='seagreen';onInputChange()" style="background:seagreen"></span>
+        <span onclick="document.getElementById('colorInput').value='chocolate';onInputChange()" style="background:chocolate"></span>
+        <span onclick="document.getElementById('colorInput').value='slategray';onInputChange()" style="background:slategray"></span>
+        <span onclick="document.getElementById('colorInput').value='white';onInputChange()" style="background:white;border:1px solid #ccc"></span>
+        <span onclick="document.getElementById('colorInput').value='black';onInputChange()" style="background:black"></span>
+      </div>
+      <p class="color-hint" style="margin-top:6px">Click any color to convert it</p>
+
+      <p style="margin-top:16px">
+        <a href="/">← Epoch converter</a> &nbsp;·&nbsp;
+        <a href="/timezone-converter.html">Timezone converter</a> &nbsp;·&nbsp;
+        <a href="/date-difference.html">Date difference</a>
+      </p>
+    </div>
+
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="footerYear"></span> EpochTime.live — Developer tools</p>
+      <nav>
+        <a href="/">Epoch</a>
+        <a href="/timezone-converter.html">Timezone</a>
+        <a href="/cron-expression.html">Cron</a>
+        <a href="/date-difference.html">Date Diff</a>
+        <a href="/color-converter.html">Color</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+  <script src="color.js"></script>
+</body>
+</html>
