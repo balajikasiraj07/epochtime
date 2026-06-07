@@ -16,7 +16,7 @@
   <meta name="twitter:description" content="How to get and convert Unix timestamps in SQL. PostgreSQL EXTRACT EPOCH, MySQL UNIX_TIMESTAMP, SQLite strftime. Convert epoch to date in SQL with examples." />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"SQL Unix Timestamp — PostgreSQL, MySQL, SQLite","url":"https://epochtime.live/sql-unix-timestamp.html","publisher":{"@type":"Organization","name":"EpochTime.live","url":"https://epochtime.live/"}}</script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7880814413550572" crossorigin="anonymous"></script>
-  <script src="analytics.js"></script>
+  <script src="analytics.js" defer></script>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
@@ -108,7 +108,9 @@ SELECT DATEADD(SECOND, 1700000000, '1970-01-01');
 -- Datetime to epoch
 SELECT DATEDIFF(SECOND, '1970-01-01', '2023-11-14 22:13:20');</code></pre></div>
 
-      <p style="margin-top:24px">→ <a href="/">Use the live epoch converter</a> to convert any SQL timestamp instantly.</p>
+      <h2 style="margin-top:32px">See also</h2>
+      <p><strong>Other languages:</strong> <a href="/epoch-time-python.html">Python</a> · <a href="/unix-timestamp-javascript.html">JavaScript</a> · <a href="/unix-timestamp-java.html">Java</a> · <a href="/unix-timestamp-php.html">PHP</a> · <a href="/unix-timestamp-go.html">Go</a></p>
+      <p><strong>Tools:</strong> <a href="/">Epoch Converter</a> · <a href="/timezone-converter.html">Timezone</a> · <a href="/date-difference.html">Date Difference</a> · <a href="/what-is-unix-time.html">Unix Time Guide</a></p>
     </article>
     <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
   </main>
