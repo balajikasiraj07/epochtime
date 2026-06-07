@@ -565,13 +565,91 @@ button:hover { background: var(--accent-hover); }
 .site-footer nav a { color: #aaa; }
 .site-footer nav a:hover { color: #fff; text-decoration: none; }
 
+/* ===== Hamburger nav toggle ===== */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: 4px;
+  min-height: unset;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #ccc;
+  border-radius: 1px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.nav-toggle:hover span { background: #fff; }
+.nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 /* ===== Responsive ===== */
 @media (max-width: 640px) {
+  /* Top section stack */
   .top-section { flex-direction: column; }
   .epoch-main { border-right: none; border-bottom: 1px solid var(--border); }
   .live-clock { border-top: none; }
-  .epoch-number { font-size: 2rem; }
+  .epoch-number { font-size: 1.85rem; }
+
+  /* Nav: hamburger dropdown */
+  .site-header { position: relative; }
+  .nav-toggle { display: flex; }
+  .site-header nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    border-top: 1px solid #444;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .site-header nav.nav-open { display: flex; }
+  .site-header nav a {
+    padding: 13px 20px;
+    border-bottom: 1px solid #2a2a2a;
+    font-size: 0.95rem;
+  }
+  .site-header nav a:last-child { border-bottom: none; }
+
+  /* Inputs full width */
   input[type="number"], input[type="datetime-local"] { width: 100%; }
   .converter-row { flex-direction: column; align-items: flex-start; }
-  .result-table td:first-child { width: 120px; }
+  .converter-row button { padding: 8px 20px; }
+
+  /* Result table: hide copy column, tighten label column */
+  .copy-cell { display: none; }
+  .result-table td:first-child { width: 110px; font-size: 0.8rem; }
+  .result-table td { font-size: 0.82rem; padding: 5px 8px; }
+
+  /* Reference tables: horizontal scroll on overflow */
+  .ref-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Snippet grid: force 1 column so code blocks don't overflow page */
+  .snippet-grid { grid-template-columns: 1fr; }
+  .snippet pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Reduce card padding on mobile */
+  .tool-card-body { padding: 12px; }
+  .info-section { padding: 14px; }
+  .info-page { padding: 16px; }
+
+  /* Tool promo grid: 1 column on narrow screens */
+  .tools-card-grid { grid-template-columns: 1fr; }
+
+  /* Footer: stack and wrap links */
+  .site-footer .container { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .site-footer nav { flex-wrap: wrap; gap: 8px 14px; }
 }

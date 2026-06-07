@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open /Users/balaji/airflow-project/epochtime/index.html)"
+    ]
+  }
+}
