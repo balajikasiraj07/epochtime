@@ -32,3 +32,6 @@ jobs:
             package-lock.json
             README.md
             SETUP-ANALYTICS.md
+            CLAUDE.md
+            .claude/growth-playbook.md
+            *.mjs
