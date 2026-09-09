@@ -59,21 +59,26 @@ If GSC data is missing, note it and work from on-page heuristics only — but fl
 that the data integration needs fixing.
 
 ### 2. Analyze — pick ONE thing to ship this run
-Scan the report, then commit to the single highest-ROI item. Candidate types, in
-rough priority order:
-1. **Opportunity queries (position 5–15)** — pages ranking just off page 1. Improve
-   the target page's title/H1/content to push it up. Usually the highest ROI.
-2. **High-impression, low-CTR queries** — the page ranks well but the title/meta
-   isn't compelling. Rewrite the `<title>` and `<meta name="description">`.
-3. **Core Web Vitals** — if a key page scores poorly, fix it (defer scripts, size
-   images, reduce layout shift).
-4. **Unmet demand → new feature/page** — if the report shows a clear query cluster
-   with real impressions that no existing page serves, AND you can build a genuinely
-   useful tool/calculator/reference for it, build ONE. → PR.
+First read `CLAUDE.md` → "Strategic reality". Our baseline: 0 clicks, head terms stuck
+at ~position 90, wins only on specific/long-tail pages. So pick from these, in order:
 
-Pick the one with the best expected clicks-per-effort this cycle. Don't split focus
-across several half-done changes — ship one thing well. Over two runs a week, small
-compounding wins are how we climb toward 1000 clicks/month.
+1. **Push a page already at position 5–20 onto page 1** — improve its depth, title,
+   H1, and intent match. Real ROI; these are reachable.
+2. **Build a winnable long-tail page (Lever B)** — a hyper-specific tool/reference for
+   a query where page-1 is achievable (date math like "X days from date"/"X days
+   ago"/age calculator, specific timezone pairs, a framework page we lack). → PR.
+3. **Advance a link-earning asset (Lever A)** — e.g. the embeddable widget or the free
+   epoch API, or a genuine best-in-class depth upgrade to a key page so it *deserves*
+   to rank. Bigger builds → PR, one increment per run is fine.
+4. **Core Web Vitals** — if a key page scores poorly, fix it.
+
+**Do NOT** spend a run retitling head-term pages that rank below ~position 40
+(`epoch converter`, `epoch timestamp`, etc.). At that depth a title tweak does nothing
+— it's authority-bound. That is motion, not progress; pick something winnable instead.
+
+Pick the one with the best expected clicks-per-effort. Ship one thing well. Over many
+runs, compounding long-tail wins + a growing link-earning asset are how we climb toward
+the 1000 clicks/month north star — a 6–12 month arc, not a monthly quota.
 
 ### 3. Execute
 - For existing-page edits: make the change, verify HTML is valid and the page still
