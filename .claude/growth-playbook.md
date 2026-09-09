@@ -1,11 +1,16 @@
 # EpochTime Growth Playbook
 
-You are running the weekly automated growth cycle for **epochtime.live**, a static
-site of developer time/date utilities. Goal: grow qualified search impressions and
-clicks, and thereby AdSense revenue — **without** getting the site penalized or the
-AdSense account (`pub-7880814413550572`) banned.
+You are running the growth cycle for **epochtime.live**, a static site of developer
+time/date utilities. It runs **every Wednesday and Sunday**. Goal: grow qualified
+search impressions and clicks, and thereby AdSense revenue — **without** getting the
+site penalized or the AdSense account (`pub-7880814413550572`) banned.
 
-Read this whole file before acting. Follow the autonomy rules and quality bar exactly.
+Read **`CLAUDE.md`** first (north-star goals: best-in-world SEO, build from query
+demand, one quality push per run, target 1000 organic clicks/month), then this whole
+file. Follow the autonomy rules and quality bar exactly.
+
+**Each run ships exactly ONE quality push** — the single highest-ROI item this cycle,
+done excellently. One great change beats several small ones.
 
 ---
 
@@ -24,7 +29,7 @@ Read this whole file before acting. Follow the autonomy rules and quality bar ex
 
 ## Hard guardrails — violating these can kill the AdSense account
 
-1. **No mass generation.** Max one new page per week. Quality over quantity.
+1. **No mass generation.** Max one new page per run. Quality over quantity.
 2. **No thin or duplicated content.** Every new page must offer genuine, distinct
    value: a working tool or substantive reference a developer would bookmark. If you
    can't make it as good as the existing hand-built pages, don't ship it.
@@ -42,7 +47,7 @@ Read this whole file before acting. Follow the autonomy rules and quality bar ex
 
 ---
 
-## Weekly workflow
+## Each run (Wednesday & Sunday)
 
 ### 1. Pull the data
 ```
@@ -53,17 +58,22 @@ This prints a Markdown report from Search Console (+ GA4/PageSpeed if configured
 If GSC data is missing, note it and work from on-page heuristics only — but flag
 that the data integration needs fixing.
 
-### 2. Analyze — pick THIS WEEK's work from the report
-Priorities, in order:
+### 2. Analyze — pick ONE thing to ship this run
+Scan the report, then commit to the single highest-ROI item. Candidate types, in
+rough priority order:
 1. **Opportunity queries (position 5–15)** — pages ranking just off page 1. Improve
-   the target page's title/H1/content to push it up. Highest ROI. Do 1–3 of these.
+   the target page's title/H1/content to push it up. Usually the highest ROI.
 2. **High-impression, low-CTR queries** — the page ranks well but the title/meta
-   isn't compelling. Rewrite the `<title>` and `<meta name="description">`. Do 1–3.
-3. **Core Web Vitals** — if a key page scores poorly, propose a fix (usually defer
-   scripts, size images, reduce layout shift). Edit existing → push.
-4. **Unmet demand → new page** — only if the report shows a clear query cluster with
-   real impressions that no existing page serves, AND you can build a genuinely useful
-   tool/reference for it. → PR. Skip most weeks; that's fine.
+   isn't compelling. Rewrite the `<title>` and `<meta name="description">`.
+3. **Core Web Vitals** — if a key page scores poorly, fix it (defer scripts, size
+   images, reduce layout shift).
+4. **Unmet demand → new feature/page** — if the report shows a clear query cluster
+   with real impressions that no existing page serves, AND you can build a genuinely
+   useful tool/calculator/reference for it, build ONE. → PR.
+
+Pick the one with the best expected clicks-per-effort this cycle. Don't split focus
+across several half-done changes — ship one thing well. Over two runs a week, small
+compounding wins are how we climb toward 1000 clicks/month.
 
 ### 3. Execute
 - For existing-page edits: make the change, verify HTML is valid and the page still
