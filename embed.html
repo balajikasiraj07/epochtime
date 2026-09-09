@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Epoch Timestamp Widget — Embed a Live Unix Clock | EpochTime.live</title>
+  <meta name="description" content="Free embeddable Unix timestamp widget. Copy one line of code to show a live epoch clock on your blog, docs, or README. Light &amp; dark themes, seconds or milliseconds." />
+  <meta name="keywords" content="unix timestamp widget, epoch timestamp widget, embed unix time, live epoch clock, current timestamp widget, embed timestamp, unix time widget html" />
+  <link rel="canonical" href="https://epochtime.live/embed.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://epochtime.live/embed.html" />
+  <meta property="og:image" content="https://epochtime.live/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="EpochTime.live — Unix timestamp converter and developer time tools" />
+  <meta name="twitter:image" content="https://epochtime.live/og-image.png" />
+  <meta property="og:title" content="Epoch Timestamp Widget — Embed a Live Unix Clock" />
+  <meta property="og:description" content="Copy one line of code to embed a live Unix epoch timestamp on your site. Free, no dependencies, light &amp; dark themes." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Epoch Timestamp Widget — Embed a Live Unix Clock" />
+  <meta name="twitter:description" content="Copy one line of code to embed a live Unix epoch timestamp on your site. Free, no dependencies, light &amp; dark themes." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Epoch Timestamp Widget — EpochTime.live",
+    "url": "https://epochtime.live/embed.html",
+    "description": "Free embeddable live Unix epoch timestamp widget. One line of HTML, no dependencies, light and dark themes.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://epochtime.live/"},{"@type":"ListItem","position":2,"name":"Epoch Timestamp Widget","item":"https://epochtime.live/embed.html"}]}</script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7880814413550572" crossorigin="anonymous"></script>
+  <script src="analytics.js" defer></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <style>
+    .embed-preview { display:flex; flex-wrap:wrap; gap:24px; align-items:center; margin:20px 0; }
+    .embed-controls { display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin:16px 0; }
+    .embed-controls label { font-size:.9rem; color:var(--text-muted); }
+    .embed-code { position:relative; }
+    .embed-code pre { white-space:pre-wrap; word-break:break-all; }
+    .options-table td:first-child { font-family:SFMono-Regular,Menlo,Consolas,monospace; white-space:nowrap; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">EpochTime.live</a>
+      <nav>
+        <a href="/">Converter</a>
+        <a href="/timezone-converter.html">Timezone</a>
+        <a href="/cron-expression.html">Cron</a>
+        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7880814413550572" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+
+    <article class="info-page">
+      <h1>Epoch Timestamp Widget</h1>
+      <p>Embed a live Unix (epoch) timestamp on your blog, documentation, dashboard, or GitHub README with one line of HTML. It ticks in real time, needs no dependencies, and works anywhere. Free to use.</p>
+
+      <h2>Live preview</h2>
+      <div class="embed-preview">
+        <div class="epochtime-widget" id="previewWidget" data-theme="light" data-format="seconds">
+          <a href="https://epochtime.live/">Current Unix Timestamp — EpochTime.live</a>
+        </div>
+      </div>
+
+      <div class="embed-controls">
+        <label>Theme:
+          <select id="optTheme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+        <label>Format:
+          <select id="optFormat">
+            <option value="seconds">Seconds</option>
+            <option value="millis">Milliseconds</option>
+          </select>
+        </label>
+      </div>
+
+      <h2>Copy the embed code</h2>
+      <p>Paste this where you want the widget to appear:</p>
+      <div class="snippet embed-code">
+        <div class="snippet-lang">HTML <button class="copy-btn" onclick="copyEmbed(this)">Copy</button></div>
+        <pre><code id="embedCode"></code></pre>
+      </div>
+      <p class="unit-note">The attribution link is a normal, followable link — please keep it. That link is how the widget stays free.</p>
+
+      <h2>Options</h2>
+      <table class="result-table options-table">
+        <tbody>
+          <tr><td>data-theme</td><td><code>light</code> (default) or <code>dark</code></td></tr>
+          <tr><td>data-format</td><td><code>seconds</code> (default) or <code>millis</code></td></tr>
+        </tbody>
+      </table>
+
+      <h2>Frameworks</h2>
+      <p>The widget is plain HTML + one script, so it drops into any stack. In React or other SPA frameworks, render the <code>&lt;div class="epochtime-widget"&gt;</code> and load <code>widget.js</code> once (e.g. in your document head or a <code>useEffect</code>). In Markdown that allows raw HTML (many static-site generators and GitHub Pages), paste the snippet directly.</p>
+
+      <h2>What is a Unix timestamp?</h2>
+      <p>A Unix timestamp (epoch time) is the number of seconds elapsed since 00:00:00 UTC on 1 January 1970. It is timezone-independent and used everywhere in programming. This widget shows the current value, updating every second. Need to convert a specific value? Use the <a href="/">epoch converter</a>, and see the <a href="/what-is-unix-time.html">Unix time guide</a> for background.</p>
+
+      <h2>More developer time tools</h2>
+      <p>
+        <a href="/">Epoch converter</a> ·
+        <a href="/timezone-converter.html">Timezone converter</a> ·
+        <a href="/date-difference.html">Date difference calculator</a> ·
+        <a href="/cron-expression.html">Cron expression parser</a>
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="footerYear"></span> EpochTime.live — Developer time tools</p>
+      <nav>
+        <a href="/">Epoch Converter</a>
+        <a href="/embed.html">Embed Widget</a>
+        <a href="/cron-expression.html">Cron Parser</a>
+        <a href="/what-is-unix-time.html">Unix Time Guide</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="widget.js"></script>
+  <script>
+    (function () {
+      var theme = document.getElementById('optTheme');
+      var format = document.getElementById('optFormat');
+      var preview = document.getElementById('previewWidget');
+      var code = document.getElementById('embedCode');
+      var yr = document.getElementById('footerYear');
+      if (yr) yr.textContent = new Date().getFullYear();
+
+      function snippet() {
+        var t = theme.value, f = format.value;
+        var attrs = 'data-theme="' + t + '"' + (f === 'millis' ? ' data-format="millis"' : '');
+        return '<!-- EpochTime.live live Unix timestamp widget -->\n' +
+               '<div class="epochtime-widget" ' + attrs + '>\n' +
+               '  <a href="https://epochtime.live/">Current Unix Timestamp — EpochTime.live</a>\n' +
+               '</div>\n' +
+               '<script src="https://epochtime.live/widget.js" async><\/script>';
+      }
+
+      function render() {
+        code.textContent = snippet();
+        // rebuild the live preview with chosen options
+        preview.removeAttribute('data-et-ready');
+        preview.setAttribute('data-theme', theme.value);
+        preview.setAttribute('data-format', format.value);
+        preview.innerHTML = '<a href="https://epochtime.live/">Current Unix Timestamp — EpochTime.live</a>';
+        if (window.EpochTimeWidget) window.EpochTimeWidget.init();
+      }
+
+      theme.addEventListener('change', render);
+      format.addEventListener('change', render);
+      code.textContent = snippet();
+    })();
+
+    function copyEmbed(btn) {
+      var text = document.getElementById('embedCode').textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        var old = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(function () { btn.textContent = old; }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>
