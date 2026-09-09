@@ -1,5 +1,17 @@
 // Central analytics — edit this file to update tracking across all pages
 
+// Google Analytics 4 (gtag.js) — G-9ZKKD47Q2K
+(function(){
+  var s=document.createElement('script');
+  s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id=G-9ZKKD47Q2K';
+  document.head.appendChild(s);
+})();
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9ZKKD47Q2K');
+
 // Google Tag Manager
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
