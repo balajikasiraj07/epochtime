@@ -1,0 +1,12 @@
+{
+  "name": "epochtime-growth-tools",
+  "private": true,
+  "type": "module",
+  "description": "Tooling for the automated growth routine. Not deployed to the live site.",
+  "scripts": {
+    "metrics": "node scripts/fetch-metrics.mjs"
+  },
+  "dependencies": {
+    "googleapis": "^140.0.0"
+  }
+}

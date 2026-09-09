@@ -25,5 +25,10 @@ jobs:
             **/.git*
             **/.git*/**
             **/.github/**
+            **/.claude/**
             **/node_modules/**
+            scripts/**
+            package.json
+            package-lock.json
             README.md
+            SETUP-ANALYTICS.md
